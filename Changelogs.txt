@@ -75,6 +75,7 @@ CHANGELOG FINAL PATCH (almost, hopefully)		 - 5.9 Beta Revisions, dejankifying, 
 -Rising Justice now hits crouchers
 -Reorganized some states and moved them to a new file (emotion.cns)
 -Increased recovery of 5LK
+-Reduced damage of Blue Nocturne super
 --------------------------------------------------------------------------------------
 CHANGELOG Lil Patch		 - 5.1 Beta tidyup - 16/03/2023      - 19/10/2023 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -378,13 +379,13 @@ WARNING: THIS BICH BIG
 - Updated system code to be in line with 5.0 (projectile detection, guarding, Zetto counter, jump link prevention, etc)
 - Adjusted Win Pose decision to include every state (mishap on my part)
 - Added a Victory Portait (Old, done by Sumguy)
-- CR.HP now has a new anim utilising Blacks blade. Suggested by IMP | Ros� on Discord
+- CR.HP now has a new anim utilising Blacks blade. Suggested by IMP | Rosé on Discord
 - Juggle system has been entirely overhauled. Before, Black utilised MUGENs default juggle system, which led to weirdness
 and inconsistency. Now, Black should generally feel a lot more consistent. Due to this, A.HP is now a consistent OTG tool
 He also can no longer OTG after Cinematic Supers like official characters, as well as after throws. Due to the revamped nature of
 Rising Justice, back throw now breaches the juggle limit. This makes it still possible to extend, but not by much without the use of
 meter. Still allows extensions, but moreover is now emphasised as an Oki tool
-		Term:Oki/Okizeme		- Okizeme (起き攻め) is a term used in fighting games which refers to pressuring 
+		Term:Oki/Okizeme		- Okizeme (èµ·ãæ»ã) is a term used in fighting games which refers to pressuring 
 					the opponent while they are getting up after being knocked down. Depending on 
 					the game, there are various possible options a player can make after being knocked down.
 - Adjusted every Air Normal to remove fuzzy guard
