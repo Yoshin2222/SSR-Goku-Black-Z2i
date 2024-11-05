@@ -1,0 +1,2491 @@
+[Statedef -2]
+
+
+
+[state -2, i] ;Test explod
+type = explod
+triggerall = 0; !numexplod(2853001); (var(26)&2**2)>0 ;Spirit God Impact
+trigger1 = (var(58)&-2147483648) !=0;helper(22011),var(41);PlayerIDExist(gethitvar(fall.envshake.ampl));enemy(0),cond(1,enemy(0),id,0) = id;(var(26)&2**7) != 0;(var(26)&2**18)=0 ;numexplod(90012602); (var(26)&2**8) != 0;(var(26)&2**0)>0;var(9) > 0; (var(26)&2**18)>0 ;Vs Mini Game character
+;trigger1 = NumHelper(90000005)
+;trigger1 = helper(90000005),Var(2)>0
+id =2853001
+anim = 12341
+pos = 120,78
+postype = left
+removetime = 1
+pausemovetime = 99999999
+supermovetime = 99999999
+ignorehitpause = 1
+
+;Reason this is here is because Mugen doesn't natively track the time
+;that has elapsed in a game like you'd expect. The timer increments whenever
+;you're in a fight, pauses when you're not in one, and then continues when you
+;enter a new one. This var essentially tracks GameTime as you'd expect
+[State 0, Roundtime]
+type = Varadd
+triggerall = (var(26)&2**12) = 0
+triggerall = teammode != Turns
+triggerall = roundstate = [0,2]
+trigger1 = var(28) < 33
+var(28) = 1
+
+;Not perfect, but the idea is that within the context of training mode,
+;meter automatically fills to max before you can act. It can be weird
+;when automatically setting meter to max but works fine in the context
+;of a normal game
+[State 0, Traning detector]
+type = Varadd
+triggerall = (var(26)&2**12) = 0
+triggerall = teammode != Turns
+triggerall = roundstate = [0,2]
+triggerall = var(28) < 33
+trigger1 = !AILevel && (enemynear, AILevel = 0) && power =  powermax && (enemynear, power = enemy,powermax)
+trigger1 = roundsexisted = 0
+var(26) = 2**12
+
+;Enemy ID (Used for reliable checking. Cheers altoiddealer!)
+[State -2, Log the current target's PlayerID]
+type = null
+triggerall = cond(numtarget,!(target,ishelper),0)
+trigger1 = Playeridexist(ID)
+trigger1 = Playerid(ID),movecontact
+trigger1 = var(12) := target,ID
+trigger2 = cond(numhelper(22011),helper(22011),var(41) != 0,0)
+trigger2 = var(12) := helper(22011),var(41)
+ignorehitpause = 1
+
+;Track position of dead enemy
+[State -2, dead enemy pos]
+type = VarSet
+;trigger1 = ;cond(numtarget,!(target,ishelper),0)
+trigger1 = enemynear,life = 0
+fvar(18) = enemynear,pos x
+ignorehitpause = 1
+
+;So Black can destroy projectiles without causing weird Projectile hit stuff
+[State -2, Projectile Armour]
+type = Helper
+triggerall = AILevel = 0
+triggerall = (var(26)&2**10) != 0 ;Bit is ON
+trigger1 = !NumHelper(8)
+stateNo = 8
+ID = 8
+name = "Projectile Armour"
+posType = P1
+facing = cond(Facing = 1, 1, -1)
+keyCtrl = 1
+ignoreHitPause = 1
+
+[State -2, EXPLODsive Buffering Helper]
+type = Helper
+;triggerall = AILevel = 0
+trigger1 = !NumHelper(90000005)
+stateNo = 90000005
+ID = 90000005
+name = "EXPLODsive Buffering helper"
+posType = P1
+facing = cond(Facing = 1, 1, -1)
+keyCtrl = 1
+ignoreHitPause = 1
+
+[State -2, Enable projectile armour]
+type = varadd
+triggerall = (var(26)&2**10) = 0 && (var(26)&2**11) = 0
+trigger1 = stateno = 221 && (anim = 226 && animelemtime(4) = 0) || (anim = 220 && animelemtime(4) =0) ;ST.HP
+trigger2 = stateno = 420 && (animelemtime(4) >=0 && animelemtime(8) <0) ;CR.HP
+trigger3 = stateno = 620 && (animelemtime(2) >=0 && animelemtime(7) <0) ;A.HP
+trigger4 = stateno = 400 && (animelemtime(2) >=0 && animelemtime(5) <0) ;CR.LP
+trigger5 = stateno = 30500 && (animelemtime(1) >=0 && animelemtime(66) <0) ;Eternal Uniter
+trigger6 = stateno = 755 && (animelemtime(16) <0) ;Kick Zetto
+trigger7 = stateno = 751 && var(17) = 1 ;Kick Zetto
+trigger8 = stateno = 19500 && (animelemtime(1) >=0 && animelemtime(9) <0) ;Taunt
+trigger9 = stateno = 222 &&  (animelemtime(3) >=0 && animelemtime(9) <0) ;6HP
+;trigger1 = 1 || var(26) := var(26) + 2**10 + 2**11
+var(26) = 2**10 + 2**11
+ignorehitpause = 1
+
+[State -2, Reset projectile armour vars]
+type = varadd
+triggerall = (var(26)&2**10) != 0 || (var(26)&2**11) != 0
+trigger1 = !(stateno = 220 && (anim = 226 && animelemtime(4) >=0 && animelemtime(6) <0) || (anim = 220 && animelemtime(4) >=0 && animelemtime(8) <0)) ;ST.HP
+;trigger1 = stateno = 220 && (anim = 226 && animelemtime(6) >=0) || (anim = 220 && animelemtime(8) >= 0)
+trigger1 = !(stateno = 420 && (animelemtime(4) >=0 && animelemtime(8) <0)) ;CR.HP
+trigger1 = !(stateno = 620 && (animelemtime(2) >=0 && animelemtime(7) <0)) ;A.HP
+trigger1 = !(stateno = 400 && (animelemtime(2) >=0 && animelemtime(5) <0)) ;CR.LP
+trigger1 = !(stateno = 30500 && (animelemtime(1) >=0 && animelemtime(66) <0)) ;Eternal Uniter
+trigger1 = !(stateno = 755 && (animelemtime(16) <0)) ;Kick Zetto
+trigger1 = !(stateno = 751 && var(17) = 1) ;Kick Zetto
+trigger1 = (stateno != 19500) || (stateno = 19500 && (animelemtime(9) >=0)) ;Taunt
+trigger1 = stateno != 222 ;6HP
+var(26) = -cond((var(26)&2**10) != 0,2**10,0) - cond((var(26)&2**11) != 0,2**11,0)
+ignorehitpause = 1                                                                             
+
+[State -2, Projectile Armour]
+type = nothitby
+trigger1 = NumHelper(8) && (var(26)&2**11) != 0
+time = 1
+value = ,AP
+ignorehitpause = 1
+
+[State 200, RJ FX]
+type = removeexplod
+triggerall = numexplod(21160)
+trigger1 = anim = 3000 ;Just to be safe!
+trigger1 = animelemtime(14) >= 0
+trigger2 = anim != 3000 ;Just to be safe!
+id = 21160
+
+[State -2, Focus Input]
+type = varset
+triggerall = var(9) = 0 ; Set once
+triggerall = stateno != [1300,1302]
+trigger1 = command = "holdz" && command = "holdc" 
+;trigger1 = movetype != H || stateno = 5120
+var(9) = 20
+ignorehitpause = 1
+
+[State -2, Focus InputDECAY]
+type = varadd
+triggerall = var(9) > 0 ; Set once
+triggerall = stateno != [1300,1302]
+triggerall = stateno != 5120
+triggerall = command = "holdz" && command = "holdc" 
+trigger1 = movetype != H
+var(9) = cond(var(9) > 1, -1,-2)
+ignorehitpause = 1
+
+[State -2, Focus Input Decay]
+type = varset
+triggerall = var(9) < 0 ; Set once
+trigger1 = command = "holdz" && command = "holdc" 
+var(9) = -1
+ignorehitpause = 1
+
+[State -2, Focus Input Reset]
+type = varset
+triggerall = var(9) > 0 || var(9) <= -1 ; Set once
+trigger1 = stateno = [1300,1302]
+trigger2 = command != "holdz" || command != "holdc" 
+var(9) = 0
+ignorehitpause = 1
+
+[State 5120, skip to FA]
+type = ChangeState
+triggerall = stateno != 1300 ;Prevent looping
+triggerall = var(9) > 0
+trigger1 = cond(stateno = 5120,AnimTime = 0,0) ;Wakeup
+trigger2 = cond(stateno = 5415,AnimTime = 0,0) ;Wakeup Roll
+trigger3 = stateno = 52 ;Jump Landing
+value = 1300
+ctrl = 0
+
+[state -2, Superior Disperse] 
+type = explod
+triggerall = !numexplod(51000); (var(26)&2**2)>0 ;Spirit God Impact
+triggerall = !alive
+trigger1 = var(54) > 0
+trigger1 = var(8) = 1
+id = 51000
+anim = 51000
+pos = -5,-74
+bindtime = -1
+postype = P1
+ontop = 1
+removetime = 999999999
+pausemovetime = 99999999
+supermovetime = 99999999
+ignorehitpause = 1
+
+[state -2, Superior Disperse] 
+type = playsnd
+triggerall = numexplod(51000); (var(26)&2**2)>0 ;Spirit God Impact
+triggerall = !alive
+trigger1 = var(54) > 0
+trigger1 =  var(8) = 1
+value = s2000,12
+ignorehitpause = 1
+
+[state -2, Superior Disperse] 
+type = varadd
+triggerall = numexplod(51000); (var(26)&2**2)>0 ;Spirit God Impact
+triggerall = !alive
+trigger1 = var(54) > 0
+trigger1 = var(8) = 2
+var(54) = -1
+ignorehitpause = 1
+
+;Focus Limiter 2 Limiter
+[State -2, Explod]
+type = Explod
+triggerall = !NumExplod(1302)
+trigger1 = enemynear,stateno = 5300;Dizzy
+trigger2 = enemynear,stateno = 1321;Hit the wall
+trigger3 = enemynear,movetype = H && enemynear,prevstateno = 5300
+anim = 1
+ID = 1302
+removetime = -1
+removeongethit = 1
+ignorehitpause = 1
+
+;focus limiter2
+[State -2, RemoveExplod]
+type = RemoveExplod
+triggerall = numexplod(1302)
+trigger1 = enemynear,MoveType != H && enemynear,stateno != 5300
+trigger2 = enemynear,ctrl = 1
+id = 1302
+
+
+
+[State -2, dizzy limiter]
+type = varset
+triggerall = (var(58)&-2147483648) = 0
+trigger1 = enemynear,stateno = 5300;Dizzy
+trigger2 = enemynear,stateno = 1321;Hit the wall
+trigger3 = enemynear,movetype = H && enemynear,prevstateno = 5300
+var(26) = var(26) + -2147483648
+ignorehitpause = 1
+
+[State -2, dizzy limiter]
+type = varset
+triggerall = (var(58)&-2147483648) != 0
+trigger1 = enemynear,movetype != H && enemynear,stateno != 5300
+var(26) = var(26) + 2147483648
+ignorehitpause = 1
+
+[State -2, remove basics limiter]
+type = RemoveExplod
+triggerall = NumExplod(987654321)
+trigger1 = numenemy
+trigger1 = enemynear, movetype != H || (enemynear, stateno = [120,155]) || enemynear, ctrl
+id = 987654321
+ignorehitpause = 1
+
+[State -2, Helper]
+type = Helper
+triggerall = AILevel > 0
+trigger1 = !numhelper(10003)
+;helpertype = normal
+name = "neutrality"
+ID =  10003
+stateno = 9999
+pos = 61,-37
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+pausemovetime=99999
+supermovetime=99999
+size.xscale =1*const(size.xscale)
+size.yscale =1*const(size.yscale)
+ignorehitpause=1
+[State -2, Helper]
+type = Helper
+triggerall = AILevel > 0
+trigger1 = !numhelper(10002)
+;helpertype = normal
+name = "spAIder"
+ID =  10002
+stateno = 9998
+pos = 61,-37
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+pausemovetime=99999
+supermovetime=99999
+size.xscale =1*const(size.xscale)
+size.yscale =1*const(size.yscale)
+ignorehitpause=1
+
+;Boolean for checking if opponent is in a "Cinematic state". Essentially a flag
+;projectiles can check so they don't muck with whatever move is hitting the opponent
+;Added this section as a safeguard so projectiles don't interrupt cinematics
+[State -2, Cinematic contingency]
+type = varadd
+triggerall = !var(37)
+trigger1 = enemynear,stateno = 2305 ;Truth Barrage confirm P2
+trigger2 = enemynear,stateno = 2191 ;Divine Rush Confirm P2
+trigger3 = enemynear,stateno = 30401 ;Spirit God Impact Confirm
+trigger4 = enemynear,stateno = 30501 ;Eternal Uniter Confirm
+trigger5 = enemynear,stateno = [1112,1113] ;EX Dive Kick
+trigger6 = enemynear,stateno = 3002 ;Hit by Rising Justice
+trigger7 = stateno = 2300 ;Truth Barrage confirm
+trigger7 = movehit = 1
+trigger8 = stateno = 2190 ;Divine Rush Confirm
+trigger8 = movehit = 1
+trigger9 = stateno = 30400 ;Spirit God Impact Confirm
+trigger9 = movehit = 1
+trigger10 = stateno = 30500 ;Eternal Uniter Confirm
+trigger10 = movehit = 1
+trigger11 = stateno = [1110,1111] ;EX Dive Kick
+trigger11 = movehit = 1
+trigger12 = stateno = 1203 ;EX Tatsu
+trigger12 = movehit = 1
+trigger13 = stateno = [3000,3001] ;Rising Justice
+trigger13 = movehit = 1
+trigger14 = numhelper(30502) ;Eternal Uniter FZ
+trigger14 = helper(30502),movehit = 1
+trigger15 = stateno = [28510,28515] ;Divine Rush  LV1
+var(37) = 1
+ignorehitpause = 1
+
+[State -2, Cinematic contingency]
+type = varset
+triggerall = var(37)
+trigger1 = enemynear,stateno != 2305 ;Truth Barrage confirm P2
+trigger1 = enemynear,stateno != 2191 ;Divine Rush Confirm P2
+trigger1 = enemynear,stateno != 30401 ;Spirit God Impact Confirm
+trigger1 = enemynear,stateno != 30501 ;Eternal Uniter Confirm
+trigger1 = enemynear,stateno != [1112,1113] ;EX Dive Kick
+trigger1 = enemynear,stateno != 3002 ;Hit by Rising Justice
+trigger1 = stateno != 2300 ;Truth Barrage confirm
+trigger1 = stateno != 2190 ;Divine Rush Confirm
+trigger1 = stateno != 30400 ;Spirit God Impact Confirm
+trigger1 = stateno != 30500 ;Eternal Uniter Confirm
+trigger1 = stateno != [1110,1111] ;EX Dive Kick
+trigger1 = stateno != 1203 ;EX Tatsu
+trigger1 = stateno != [3000,3001] ;Rising Justice
+trigger1 = !numhelper(30502) ;Eternal Uniter FZ
+trigger1 = stateno != [28510,28515] ;Divine Rush  LV1
+var(37) = 0
+ignorehitpause = 1
+
+;Using Bitwise shifting to check 2 boolenas, one for if Black is in a super
+;state, and one if he exited. When he enters the state, 2**0 is set to true. If
+;2**0 is true and he's no longer in a Super State, 2**1 is set. When 2**1 is
+;set, it's called to reset var(54) (Superior Mode)
+[State -2, superior contingency]
+type = varadd
+triggerall = var(54) > 0
+triggerall = (var(26)&2**0)=0
+triggerall = (var(26)&2**1)=0
+trigger1 = stateno = [2300,2304] ;Truth Barrage
+trigger2 = stateno = 14000	    ;Shippu Jinrai Kyakku
+trigger3 = stateno = 2000 || stateno = 20000 ;KMH 
+trigger4 = stateno = 2100	    ;Rapiddohiru danmaku
+trigger5 = stateno = [2190,2207] ;Divine Rush
+trigger6 = stateno = [2850,2854] ;Resentful Angel
+trigger7 = stateno = [30400,30418] ;Spirit God Impact
+trigger8 = stateno = 30500 ;Eternal Uniter
+trigger9 = stateno = 2050 || stateno = 2051 ;True Nocturne
+trigger10 = stateno = 2209 ;Divine Rush lEVEL 2
+trigger11 = stateno = [28510,28515] ;Divine Rush  LV1
+var(26) = 2**0
+ignorehitpause = 0
+
+[State -2, superior contingency]
+type = varadd
+triggerall = var(54) > 0
+triggerall = (var(26)&2**0)>0
+triggerall = (var(26)&2**1)=0
+trigger1 = stateno != [2300,2304] ;Truth Barrage
+trigger1 = stateno != 14000	    ;Shippu Jinrai Kyakku
+trigger1 = stateno != 2000 && stateno != 20000 ;KMH 
+trigger1 = stateno != 2100	    ;Rapiddohiru danmaku
+trigger1 = stateno != [2190,2207] ;Divine Rush
+trigger1 = stateno != [2850,2854] ;Resentful Angel
+trigger1 = stateno != [30400,30418] ;Spirit God Impact
+trigger1 = stateno != 30500 ;Eternal Uniter
+trigger1 = stateno != 2050 && stateno != 2051 ;True Nocturne
+trigger1 = stateno != 2209 ;Divine Rush lEVEL 2
+trigger1 = stateno != 22094 ;Divine Rush lEVEL 3
+trigger1 = stateno != [28510,28515] ;Divine Rush  LV1
+trigger2 = movetype != A
+var(26) = 2**1
+ignorehitpause = 0
+
+;Turn Superior Mode off
+[State -2, superior contingency]
+type = VarSet              
+triggerall = var(54) > 0
+trigger1 = (var(26)&2**0)>0
+trigger1 = (var(26)&2**1)>0
+var(54) = 0
+ignorehitpause = 1
+
+;Turn Superior Mode off
+[State -2, superior contingency]
+type = varadd
+triggerall = var(54) = 0
+trigger1 = (var(26)&2**0)>0
+var(26) = -2**0
+ignorehitpause = 1
+
+;Turn Superior Mode off
+[State -2, superior contingency]
+type = varadd
+triggerall = var(54) = 0
+trigger1 = (var(26)&2**1)>0
+var(26) = -2**1
+ignorehitpause = 1
+
+;Hate to do this, but thanks to Vegetto and Babidi technically always being airborne, i have
+;to make the distinction just to be safe
+[state -2, i] ;Enemy in "Juggle" State
+type = varadd
+triggerall = (var(26)&2**4)=0
+trigger1 = enemynear,stateno = [5050,5150]
+trigger2 = enemynear,stateno = [5020,5035]
+trigger3 = enemynear,stateno = 275 ; Hit by HK
+trigger4 = enemynear,stateno = 611 ; A.MP Flip
+trigger5 = enemynear,stateno = [1112,1114] ;EX Dive Kick
+trigger6 = enemynear,stateno = 3002 ; Rising Justice Hitstate
+trigger7 = enemynear,stateno = [651,652] ;Groundbounce
+trigger8 = enemynear,stateno = [2101,2102] ;Rapid Heel Barrage bounce
+var(26) = 2**4
+ignorehitpause = 0
+
+[state -2, i] ;Enemy out of "Juggle" State
+type = varadd
+triggerall = (var(26)&2**4)>0 ;;Enemy in "Juggle" State
+trigger1 = enemynear,movetype != H
+var(26) = -2**4
+ignorehitpause = 0
+
+[State -2, OTG contingency]
+type = varadd
+triggerall = (var(26)&2**8)>0
+trigger1 = enemynear,movetype != H
+var(26) = -2**8
+ignorehitpause = 1
+
+;Not dying in intros/endings
+;Fuck you F1!
+[State -2, LifeAdd]
+type     = LifeAdd
+trigger1 = RoundState = 0
+trigger2 = RoundState = 1
+trigger3 = RoundState = 3
+trigger4 = RoundState = 4
+value    = 0
+kill     = 0
+absolute = 011111111111111111111
+
+[State -2, EX Tatsu drop] ;Used to ensure clean cancels from EX Tatsu
+type = targetbind ;Bind instead of drop due to combos not correctly registering with Drop
+triggerall	= 0;cond(numtarget,!(target,ishelper),0)
+triggerall 	= PlayerIdExist(var(12)) ;enemy exists
+trigger1 = prevstateno = 1203
+trigger2 = stateno = 1203 && PlayerId(var(12)),stateno = 5950
+pos = 43,0
+time = 0
+ignorehitpause = 1
+persistent = 1
+
+;How this works is the Cond checks if you're in a certain state. If so, returns
+;the status of a condition. If true, proceed with the rest of the code. If not,
+;the Cond essentially loops until it returns false, in which case the false value
+;of the Cond is returned, which is 1, which proceeds the code
+[State -2, Super-Timer Freeze]
+type = varset
+triggerall = (var(26)&2**14) != 0
+trigger1 = cond(stateno = 2300,time > 67,1)		    	;Truth Barrage START
+trigger1 = stateno != [2301,2304]	 			;Truth Barrage
+trigger1 = cond(stateno = 14000,time > 49,1)		    	;Shippu Jinrai Kyakku
+trigger1 = cond(stateno = 2000,animelemtime(22) >= 0,1)		;KMH 
+trigger1 = cond(stateno = 20000,animelemtime(21) >= 0,1)	;A.KMH 
+trigger1 = cond(stateno = 2100,time > 51,1)		    	;Rapiddohiru danmaku
+trigger1 = cond(stateno = 2190,time >= 119,1)			;Divine Rush Confirm
+trigger1 = stateno != [2191,2209] 				;Divine Rush 3
+trigger1 = stateno != 22094	 				;Divine Rush 3 slash down
+trigger1 = cond(stateno = 2850,time > 30,1)		    	;Resentful Angel
+trigger1 = stateno != [2851,2854] 				;Resentful Angel Hit states
+trigger1 = stateno != [30400,30418]	 			;Spirit God Impact
+trigger1 = cond(stateno = 30500,time > 189,1)		    	;Eternal Uniter
+trigger1 = cond(stateno = 2050,time > 51,1)		    	;True Nocturne
+trigger1 = stateno != 2051					;True Nocturne
+trigger1 = stateno != 2209 					;Divine Rush lEVEL 2
+trigger1 = stateno != [28510,28515]				;Divine Rush  LV1
+trigger1 = cond(stateno = 902,time > 97,1)		    	;EMO Activate
+trigger2 = movetype != A
+var(26) = var(26)-2**14
+
+;Added so instances of SuperPause properly freeze the Dizzy timer
+[State -2, Super-Timer Freeze]
+type = varadd
+triggerall = (var(26)&2**14) = 0
+trigger1 = cond(stateno = 2300,time <= 67,0)		    	;Truth Barrage START
+trigger2 = stateno = [2301,2304]	 			;Truth Barrage
+trigger3 = cond(stateno = 14000,time <= 49,0)		    	;Shippu Jinrai Kyakku
+trigger4 = cond(stateno = 2000,animelemtime(22) < 0,0)		;KMH 
+trigger5 = cond(stateno = 20000,animelemtime(21) < 0,0)	;A.KMH 
+trigger6 = cond(stateno = 2100,time <= 51,0)		    	;Rapiddohiru danmaku
+trigger7 = cond(stateno = 2190,time <= 119,0)	;Divine Rush Confirm
+trigger8 = stateno = [2191,2209] 				;Divine Rush 3
+trigger9 = stateno = 22094	 				;Divine Rush 3 slash down
+trigger10 = cond(stateno = 2850,time <= 30,0)		    	;Resentful Angel
+trigger11 = stateno = [2851,2854] 				;Resentful Angel Hit states
+trigger12 = stateno = [30400,30418]	 			;Spirit God Impact
+trigger13 = cond(stateno = 30500,time <= 189,0)		    	;Eternal Uniter
+trigger14 = cond(stateno = 2050,time <= 51,0)		    	;True Nocturne
+trigger15 = stateno = 2051					;True Nocturne
+trigger16 = stateno = 2209 					;Divine Rush lEVEL 2
+trigger17 = stateno = [28510,28515]				;Divine Rush  LV1
+trigger18 = cond(stateno = 902,time <= 97,0)		    	;EMO Activate
+var(26) = 2**14
+
+;a little something
+;Timer is frozen when you perform supermoves.
+;So you won't have "Time Over!" while attacking the enemy.
+;Chucked here so i don't have to copy paste this sctrl a bunch
+[State -2, AssertSpecial]
+type		= AssertSpecial
+triggerall	= !WinKO			;remember to put this otherwise no winpose after the supermove!
+trigger1 = (var(26)&2**14) != 0
+ignorehitpause	= 1
+persistent	= 1
+flag		= TimerFreeze
+flag2		= RoundNotOver
+
+[State 2854, VARIABLE CLEANUP/RESETS]
+type = Null
+trigger1 = (fvar(12) != 1) ;Reset Draw Scale
+trigger1 = ctrl = 1
+trigger1 = (fvar(12) := 1) ;Reset Draw Scale
+trigger2 = var(14) != 0
+trigger2 = stateno != [1000,1004]
+trigger2 = 1||(var(14) := 0) ;Reset Fireball Gutcheck
+ignorehitpause = 1
+
+;Explod contingency, for if Black cancels from EX Dive Kick
+[State -2, FX contingency]
+type = removeexplod
+triggerall = Numexplod(1115)
+trigger1 = movetype = H
+trigger2 = prevstateno = 1110
+ID = 1115
+ignorehitpause = 1
+
+[State -2, Training stuff, it won't effect the gameplay]
+;also I'm tired of pressing the spacebar. :P
+type = AssertSpecial
+trigger1 = Enemy, Name = "Training"
+flag = timerfreeze
+ignorehitpause = 1
+
+;=============================================
+;Dizzy code 5.0
+;=============================================
+
+;Updated in light of Jirens audio bug. Uses a Bit to prevent repeat sound playing
+[State 3033, Snd]
+type = playsnd
+triggerall = (var(26)&2**13) != 0
+trigger1 = 1 || var(26) := var(26) - 2**13 ;Assign Bit to prevent overlap
+value = 2522, cond(random < 500, 0, 1)
+;value = cond(enemy,stateno = 1321, 15000, 2522), cond(enemy,stateno = 1321, 2, cond(random < 500, 0, 1))  ;Dizzy sounds. 
+
+[State -2, Dizzy tap buffer]
+type = VarSet
+trigger1 = enemy,stateno=1321
+sysvar(3) = 130
+ignorehitpause = 1
+ 
+[State -2, Dizzy tap buffer]
+type = VarSet
+trigger1 = enemy,stateno=1321
+sysvar(2) = 0
+ignorehitpause = 1
+[State -2, Var if Gohan performed Finisher 1]
+type = varset
+trigger1 = (enemy,stateno=[3020,3030])
+sysvar(3) = 0
+ignorehitpause = 1
+[State 5300, dizzy Timer]
+type = varadd
+trigger1 = enemy,stateno=5300
+sysvar(3) = -1
+[State 5300, Timer]
+type = varadd
+trigger1 = enemy,stateno=5300
+trigger1 = sysvar(3) > 0
+trigger1 = enemy,command = "up" || enemy,command = "down" || enemy,command = "back" || enemy,command = "fwd"
+sysvar(3) = -2
+[State 5300, Timer]
+type = varadd
+trigger1 = enemy,stateno=5300
+trigger1 = sysvar(3) > 0
+trigger1 = enemy,command = "x" || enemy,command = "y" || enemy,command = "z" || enemy,command = "a" || enemy,command = "b" || enemy,command = "c"
+sysvar(3) = -1
+[State 5300, Skip Anim]
+type = varadd
+triggerall = enemy,stateno=5300
+triggerall = sysvar(3) > 0
+trigger1 = enemy,command = "up" || enemy,command = "down" || enemy,command = "back" || enemy,command = "fwd"
+trigger2 = enemy,command = "a" || enemy,command = "b" || enemy,command = "c" || enemy,command = "x" || enemy,command = "y" || enemy,command = "z"
+sysvar(2) = 1
+[State 5300, Skip Anim]
+type = varset
+triggerall = enemy,stateno=5300
+triggerall = sysvar(3) > 0
+trigger1 = enemy,animelemtime(1) >= 0 && !(enemy,animelemtime(enemy,animelemno(0)))
+sysvar(2) = 0
+;End dizzy code 5.0
+
+;remove dizzy stars
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = Anim != 5300
+trigger1 = numexplod(5931)
+id = 5931
+;remove dizzy stars
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = enemy,Anim != 5300
+trigger1 = numexplod(5932)
+id = 5932
+ 
+;dizzy stars
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(5931)
+triggerall = enemy, AnimExist(5931)
+trigger1 = Anim = 5300
+trigger1 = MoveType = H
+trigger2 = StateNo = 5300
+anim = 5931
+ID = 5931
+pos = 0,-100;edit height as needed for your char
+postype = p1  ;p2,front,back,left,right
+ownpal = 1
+bindtime = -1
+removetime = -1
+removeongethit = 1
+sprpriority = 2
+ 
+[State 1315, Dizzy Stars]
+type=explod
+triggerall = !NumExplod(5932)
+triggerall = !enemy, AnimExist(5931)
+trigger1 = enemy,Anim = 5300
+trigger1 = enemy, MoveType = H
+trigger2 = enemy,StateNo = 5300
+anim = 5931
+ID = 5932
+postype = p2
+pos = -2, (enemynear,const(size.head.pos.y))-20
+ownpal = 1
+bindtime = -1
+removetime = -1
+removeongethit = 1
+sprpriority = 2
+
+[State -2, Glass break sound effect];FA kill sound
+type		= PlaySnd
+triggerall = 	Numtarget
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall          = !(PlayerId(var(12)), alive)
+trigger1            = PlayerId(var(12)), time = 1
+trigger1		= PlayerId(var(12)),StateNo = 1323 
+value		= 1323, 0
+ignorehitpause	= 1
+persistent  = 0
+ 
+[State -2, P2 Glass Break FX Left] ;Updated
+type		= Explod
+triggerall = 	Numtarget
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall          = !(PlayerId(var(12)), alive)
+trigger1            = PlayerId(var(12)), time = 1
+trigger1		 = PlayerId(var(12)),StateNo = 1323  && !NumExplod(1323)
+trigger1            = PlayerId(var(12)), Facing = 1 
+persistent	= 0
+ID		= 1323
+anim		= 1323
+postype		= left
+pos		        = -10, ceil(PlayerId(var(12)),screenpos y)-55
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+ 
+[State -2, P2 Glass Break FX Right] ;Updated
+type		= Explod
+triggerall = 	Numtarget
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall          = !(PlayerId(var(12)), alive)
+trigger1            = PlayerId(var(12)), time = 1
+trigger1		= PlayerId(var(12)),StateNo = 1323  && !NumExplod(1323) 
+trigger1            = PlayerId(var(12)), Facing = -1
+persistent	= 0
+ID		        = 1323
+anim		= 1323
+postype		= right
+pos		        = 10, ceil(PlayerId(var(12)),screenpos y)-55
+facing              = -1
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+
+[State -2, remove basics limiter]
+type = RemoveExplod
+triggerall = NumExplod(987654321)
+trigger1 = numenemy
+trigger1 = enemynear, movetype != H || (enemynear, stateno = [120,155]) || enemynear, ctrl
+id = 987654321
+ignorehitpause = 1
+
+;===============================================================================
+; ----	PALLETE SELECTION CODE 	----
+;===============================================================================
+[State 0, Pallete failsafes] ;Triggers to ensure Black never uses a pallete he doesn't have, and he doesn't overlap with the opponent
+type = null;VarSet
+triggerall = (var(39)&1) != 0
+triggerall = RoundState < 2
+;Safety for when palletes go below availible limit
+trigger1 = var(5) <= 0
+trigger1 = var(5) := var(5) + var(29) - cond(enemy,name = "SSR Goku Black Z2i", cond(enemy,var(5) = var(29), 1,0),0)
+;Safety for when palletes go above availible limit
+trigger2 = var(5) > var(29);If current pallete is higher than max amount of palletes, check Config.txt
+trigger2 = var(5) := var(5) - var(29) + cond(enemy,name = "SSR Goku Black Z2i", cond(enemy,var(5) = 1, 1,0),0)
+
+[State 0, Write overlap safety]
+type = Null;VarAdd
+triggerall = (var(39)&1) != 0
+triggerall = RoundState < 2
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+triggerall = enemy,name = "SSR Goku Black Z2i"
+;Assign Up overlap Bit
+trigger1 = 1 || cond((var(39)&2 ) = 0, cond((var(5) + 1 = enemy,var(5)) || (var(5) = var(29) && enemy,var(5) = 1), var(39) := var(39) + 2 , 0),cond((var(39)&2) != 0, cond((var(5) + 1 != enemy,var(5)) && !(var(5) = var(29) && enemy,var(5) = 1), var(39) := var(39) - 2, 0),0))
+;Assign Down overlap Bit
+trigger1 = 1 || cond((var(39)&4 ) = 0, cond((var(5) - 1 = enemy,var(5)) || (var(5) = 1 && enemy,var(5) = var(29)), var(39) := var(39) + 4 , 0),cond((var(39)&4) != 0, cond((var(5) - 1 != enemy,var(5)) && !(var(5) = 1 && enemy,var(5) = var(29)), var(39) := var(39) - 4, 0),0))
+;;Assign Right overlap Bit
+trigger1 = 1 || cond((var(39)&8 ) = 0, cond((var(5) + 10 = enemy,var(5)) || (var(5) + 10 - var(29) = enemy,var(5)), var(39) := var(39) + 8 , 0),cond((var(39)&8) != 0, cond((var(5) + 10 != enemy,var(5)) && !(var(5) + 10 - var(29) = enemy,var(5)), var(39) := var(39) - 8, 0),0))
+;;Assign Left overlap Bit
+trigger1 = 1 || cond((var(39)&16) = 0, cond((var(5) - 10 = enemy,var(5)) || (var(5) - 10 + var(29) = enemy,var(5)), var(39) := var(39) + 16, 0),cond((var(39)&16) != 0, cond((var(5) - 10 != enemy,var(5)) && !(var(5) - 10 + var(29) = enemy,var(5)), var(39) := var(39) - 16, 0),0))
+
+[State 0, Sub 1]
+type = Null;VarAdd
+triggerall = (var(39)&1) != 0
+triggerall = RoundState < 2
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+;Increment 1
+trigger1 = command = "up"
+trigger1 = var(5) := cond(enemy,name = "SSR Goku Black Z2i",cond((var(39)&2) = 0, var(5) + 1,enemy,var(5) + 1),var(5) + 1)
+;Decrement 1
+trigger2 = command = "down"
+trigger2 = var(5) := cond(enemy,name = "SSR Goku Black Z2i",cond((var(39)&4) = 0, var(5) - 1,enemy,var(5) - 1),var(5) - 1)
+;Increment 10
+trigger3 = cond(teamside = 1,command = "fwd",command = "back")
+trigger3 = var(5) := cond(enemy,name = "SSR Goku Black Z2i",cond((var(39)&8) = 0, var(5) + 10,enemy,var(5) + 1),var(5) + 10)
+;Decrement 10
+trigger4 = cond(teamside = 1,command = "back",command = "fwd")
+trigger4 = var(5) := cond(enemy,name = "SSR Goku Black Z2i",cond((var(39)&16) = 0, var(5) - 10,enemy,var(5) - 1),var(5) - 10)
+
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(21)
+triggerall = (var(39)&1) != 0
+triggerall = RoundState < 2
+triggerall = RoundNo = 1
+triggerall = Anim = 0
+trigger1 = command = "start"
+anim = 1
+ID = 21
+removetime = -1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = NumExplod(21)
+trigger1 = RoundState = 2
+id = 21
+; ----	END OF PALLETE SELECTION CODE 	----
+
+;=======================================================
+;Advanced EXPLODsive buffer turning
+;=======================================================
+;disable MUGEN's hardcoded turning
+[State -2, AssertSpecial]
+type = AssertSpecial
+trigger1 = P2DisT x >= -12
+flag = noautoturn
+
+[State -2, No walk during turning animation]
+type = PosFreeze
+triggerall = MoveType != H
+trigger1 = anim=5
+value = 1
+[State 0, AssertSpecial]
+type = AssertSpecial
+triggerall = MoveType != H
+trigger1 = Anim = 5
+flag = nowalk
+
+;When to play standing turn anim
+[State -2, ChangeAnim]
+type = ChangeAnim
+triggerall = MoveType != H
+triggerall = ctrl
+triggerall = Anim !=5
+triggerall = StateType !=A
+trigger1 = prevstateno !=50
+trigger1 = P2DisT x < -12
+trigger1 = StateNo = [0,20]
+trigger1 = (!AILEVEL && !NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003)) || AILEVEL && command != "holddown"
+value = 5
+;When to play crouching turn anim
+[State -2, ChangeAnim]
+type = ChangeAnim
+triggerall = MoveType != H
+triggerall = StateType !=A
+trigger1 = Anim !=6
+trigger1 = P2DisT x < -12
+trigger1 = ctrl
+trigger1 = StateNo = [0,20]
+trigger1 = (!AILEVEL && NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) || AILEVEL && command = "holddown"
+value = 6
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = MoveType != H
+triggerall = (!AILEVEL && !NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003)) || AILEVEL && command != "holddown"
+triggerall = ctrl
+triggerall = Anim !=5
+triggerall = P2DisT x < -12
+triggerall = StateType !=A
+trigger1 = StateNo != [0,20]
+trigger1 = MoveType = I
+value = 0
+ctrl = 1
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = MoveType != H
+triggerall = (!AILEVEL && NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) || AILEVEL && command = "holddown"
+triggerall = ctrl
+triggerall = Anim !=6
+triggerall = P2DisT x < -12
+triggerall = StateType !=A
+trigger1 = StateNo != [0,20]
+trigger1 = MoveType = I
+value = 11
+ctrl = 1
+
+;When to actually turn(notice this is below the turn anim code blocks)
+[State -2, Turn]
+type = Turn
+triggerall = P2DisT x < -12
+trigger1 = MoveType != H || (StateNo !=[120,155]) 
+trigger1 = StateType != A
+trigger1 = ctrl
+trigger1 = stateno !=52
+trigger1 = StateNo = [0,20]
+trigger2 = StateNo = 5120 && !AnimTime
+trigger2 = ctrl=0
+[State -2, Turn]
+type = Turn
+triggerall = FrontEdgeBodyDist <= 2
+trigger1 = StateNo = 5120 && !AnimTime
+trigger1 = ctrl=0
+
+;can throw tech in these states
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(98000000)
+trigger1 = StateNo = [0,20]
+trigger2 = StateNo = [120,152]
+trigger3 = StateNo = [800,899]
+anim = 1
+ID = 98000000
+removetime = -1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = numexplod(98000000)
+trigger1 = StateNo != [0,20]
+trigger1 = StateNo != [120,152]
+trigger1 = StateNo != [800,899]
+id = 98000000
+
+;jump link infinite prevention on tall chars--see state 50 in override
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = numexplod(52)
+trigger1 = P2MoveType != H
+trigger2 = P2StateType = A
+trigger3 = StateNo >=1000
+trigger4 = PrevStateNo >=1000
+id = 52
+
+;air basic juggle limiter
+[State -2, VarSet]
+type = VarSet
+triggerall = var(1) != 0
+trigger1 = P2MoveType != H
+var(1) = 0
+
+;Rising Justice limiter
+[State -2, VarSet]
+type = Varadd
+triggerall = (var(26)&2**6) != 0
+trigger1 = P2MoveType != H
+var(26) = -2**6
+[State 0, var]
+type = varadd
+triggerall = (var(26)&2**7) != 0
+trigger1 = P2MoveType != H
+var(26) = -2**7
+
+;Superior exit safety
+[State -2, VarSet]
+type = VarSet
+trigger1 = var(54) < 0
+var(54) = 0
+
+;this resets the var so he will go to state 5170 correctly in all instances
+ [State -2, System Variable Set]
+type = VarSet
+trigger1 = StateType = S || Statetype = C
+sysvar(0) = 0
+ignorehitpause = 1
+
+;===============================================================================
+; ------- Remove various explods --------
+;===============================================================================
+
+[state -2, remove Flip KO FX]
+type = removeexplod
+triggerall = numexplod(5938)
+trigger1 = anim!=5937
+id = 5938
+[state -2, remove Twist KO FX]
+type = removeexplod
+triggerall = numexplod(20152)
+trigger1 = anim!=5052
+id = 20152
+
+[state -2, remove charge dust]
+type = removeexplod
+triggerall = numexplod(908)
+trigger1 = stateno != 900
+trigger1 = stateno != 901
+id = 908
+
+[State -2, TargetState] ; Ki Mine freeze
+type = pause
+triggerall = var(2) = 1
+trigger1 =enemy,stateno = 1018 ;Frozen by Ki mine
+time = 40
+movetime = 40
+ignorehitpause = 1
+persistent = 0
+
+;===============================================================================
+; ------- Damage Dampener --------
+;===============================================================================
+[State -2, SUPERIOR MODE MULTIPLER] 
+type = varset
+trigger1 = 1
+fvar(4) = (cond(var(54) > 0,1 + (0.035 * var(54)),1))
+ignorehitpause = 1
+ 
+[State -2, Counter Flag] 
+type = VarSet
+trigger1 = NumEnemy
+fvar(8) = (EnemyNear, MoveType = A)
+ignoreHitPause = 1
+
+[State -2, Hit Count] 
+type = VarAdd 
+triggerall = stateno != 14000 ;Shippu Jinrai Kyakku
+triggerall = stateno != 2100 ;Rapiddohiru danmaku 
+;Thought about nerfing the helper too, but tbh did too much damage and led to fairly easy
+;Touch of Deaths
+;triggerall = numhelper(2103)
+;triggerall = helper,movehit = 0;Rapiddohiru danmaku 
+triggerall = stateno != 2051 ;True Nocturne
+trigger1 = !IsHelper
+trigger1 = MoveHit = 1 
+trigger1 = !HitPauseTime 
+trigger1 = !(HitDefAttr = SCA, AT) 
+fvar(13) = 1 
+ 
+[State -2, Hit Count Reset] 
+type = VarSet 
+trigger1 = NumEnemy && fvar(13) 
+trigger1 = (EnemyNear, MoveType != H) && (EnemyNear, StateNo != 5300) 
+fvar(13) = 0 
+ignoreHitPause = 1
+ 
+[State -2, Dampener] 
+type = VarSet 
+trigger1 = 1 
+fvar(10) = cond(fvar(13) < 3, 24, cond(fvar(13) >= 23, 1, 24 - fvar(13))) / 24.0 
+ignoreHitPause = 1 
+ 
+[State -2, Dampener Limit] 
+type = VarSet 
+trigger1 = fvar(10) < 0 
+fvar(10) = 0 
+ignoreHitPause = 1 
+
+
+
+[State -2, Root Dampener] 
+type = VarSet 
+trigger1 = 1
+fvar(11) = fvar(10) * cond(fvar(8), 1.2, 1)  * fvar(4) * (fvar(5)/100) 
+ignoreHitPause = 1
+
+;===============================================================================
+; ------- VarSets --------
+;===============================================================================
+
+[State -2, 2OS Helper to detect life removal]
+type = helper
+trigger1 = !numhelper(2)
+id = 2
+keyctrl = 0
+size.xscale = const(size.xscale)
+size.yscale = const(size.yscale)
+stateno = 2
+ignorehitpause = 1
+persistent = 1
+pausemovetime = 9999999
+supermovetime = 9999999
+
+[State -2, 2OS Damage detection]
+type = varset
+trigger1 = numhelper(2)
+fvar(2) = life - helper(2),var(2)
+ignorehitpause = 1
+persistent = 1
+
+[State -2, Air dash reset var when char lands]
+type=VarSet
+trigger1= statetype!=A
+var(10) = 0
+
+[State -2, Clone Barrage var reset]
+type=VarSet
+trigger1= enemynear,movetype!=H
+var(21) = 0
+
+;Slashing Chop
+[State -2, Focus Attack meter reset when no longer charging]
+type = VarSet
+trigger1 = (StateNo !=[1300,1301]) && ((StateNo = [5000,5099]) && PrevStateNo != 1300)
+trigger2 = StateNo = [100,105]
+fv = 9
+value = 0
+
+[State -2, Reset var when the opponent recovers]
+type=VarSet
+trigger1= NumEnemy
+trigger1= (enemynear,movetype!=H)
+trigger2= !NumEnemy
+var(7) = 0
+ignorehitpause = 1
+
+[State -2, Reset var when the opponent recovers] ;Fireball limits
+type=VarSet
+trigger1= NumEnemy
+trigger1= (enemynear,movetype!=H)
+trigger2= !NumEnemy
+var(55) = 0
+ignorehitpause = 1
+
+[State -2, Super Jump reset var when Freeza lands]
+type=varset
+triggerall = var(22) != 0
+trigger1= statetype!=A
+var(22) = 0
+
+[State -2, Throws Allowed]
+type = VarSet
+triggerall = numenemy
+trigger1 = EnemyNear, MoveType != H
+trigger1 = EnemyNear, StateNo != 140
+trigger1 = (EnemyNear, ctrl && EnemyNear, Time >= 1) || (EnemyNear, Time >= 8)
+trigger2 = EnemyNear, MoveType = A
+trigger3 = (EnemyNear, StateNo != [0,52]) && (EnemyNear, StateNo != [120,155]) && (EnemyNear, StateNo != [5000,5120])
+trigger4 = var(20) || var(21) || var(22)
+var(38) = 0
+
+[State -2, Throws Disallowed]
+type = VarSet
+triggerAll = NumEnemy
+trigger1 = EnemyNear, StateNo = [150,155]
+trigger2 = (EnemyNear, StateNo = 51 || EnemyNear, StateNo = 140) && (EnemyNear, PrevStateNo = [150, 155])
+trigger3 = EnemyNear, MoveType = H && EnemyNear, StateType != A && !var(20) && !var(21) && !var(22)
+trigger4 = (EnemyNear, StateNo = [5020,5040]) && EnemyNear, HitFall = 0
+trigger5 = EnemyNear, StateNo = 40 && EnemyNear, PrevStateNo != 52 && (EnemyNear, Anim != [0, 29])
+var(38) = 1
+ignorehitpause = 1
+
+[State -2, KO snd]
+type = VarSet
+trigger1 = alive && var(8) > 0
+trigger2 = !alive && var(8) < 2
+var(8) = IfElse(alive, 0, var(8) + 1)
+ignorehitpause = 1
+
+[State -2, KO snd English]
+type = playsnd
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = stateno != 5950
+trigger1 = !alive && var(8) = 1
+value = 12, 2; + (1+random%2)
+ignorehitpause = 1
+;channel = -1
+volumescale = 300
+
+[State -2, KO snd English]
+type = playsnd
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = stateno = 5950
+trigger1 = !alive && var(8) = 1
+value = 12, 0 + (random%100> 50)
+ignorehitpause = 1
+;channel = -1
+volumescale = 300
+
+[State -2, ctrlset]
+type = CtrlSet
+trigger1 = roundstate=0 || roundstate =1 || roundstate =4
+value = 0
+
+
+
+;These controllers play the "hit ground" sound effect everytime the enemy hits the ground, 
+;during different custom states.
+[State -2, Hitting ground sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+;triggerall = 	cond(Numtarget,!(target,ishelper),0)
+triggerall =	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)),time = 1 ;enemy is in custom hit state
+trigger1		= PlayerId(var(12)), StateNo = 652	;custom state: a.SP
+trigger2		= PlayerId(var(12)), StateNo = 2307	;Truth Barrage
+trigger3		= PlayerId(var(12)), StateNo = 1321	;Hit wall Focus Attack
+trigger4		= PlayerId(var(12)), StateNo = 1115110	;custom state: Dizzy/Stun, falling
+trigger5           	= PlayerId(var(12)), StateNo = 2102     ;LVL2 Custom state
+value		= 15000, 2
+ignorehitpause	= 1
+channel		= 21
+[State -2, Hitting ground sound effect];Medium sound effect, first bounce
+type		= PlaySnd
+;triggerall = 	cond(Numtarget,!(target,ishelper),0)
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)),time = 1 ;enemy is in custom hit state
+trigger1		= PlayerId(var(12)), StateNo = 1115100	;custom state: Dizzy/Stun, falling
+trigger2		= PlayerId(var(12)), StateNo = 28525	;LVL DR Killed
+trigger3		= PlayerId(var(12)), StateNo = 1115110	;custom state: Dizzy/Stun, falling
+trigger4           	= PlayerId(var(12)), StateNo = 2102     ;LVL2 Custom state
+value		= 15000, 1
+ignorehitpause	= 1
+channel		= 22
+[State -2, Hitting ground sound effect];Weak sound effect, second bounce
+type		= PlaySnd
+;triggerall = 	cond(Numtarget,!(target,ishelper),0)
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)),time = 1 ;enemy is in custom hit state
+trigger1		= PlayerId(var(12)), StateNo = 1115110	;custom state: Dizzy/Stun, falling
+trigger2           	= PlayerId(var(12)), StateNo = 2102     ;LVL2 Custom state
+value		= 15000, 0
+ignorehitpause	= 1
+channel		= 23
+
+[State -2, Explod];State 5052 Twist FX
+type = PlaySnd
+trigger1 = anim=5052 && !(gametime%10) && animelemtime(4)>=0
+value = 5052,0
+[State -2, Explod];State 5937 Twist FX
+type = PlaySnd
+triggerall = stateno != [2190,2206]
+trigger1 = anim=5937 && !(gametime%10) && animelemtime(4)>=0
+value = 5052,0
+
+[State -2, Explod];State 5052 Twist FX
+type = Explod
+triggerall = !IsHelper
+triggerall = !NumExplod(20152)
+trigger1 = anim=5052 && animelemtime(4)=0
+anim = 20152
+pos = 0,-50
+postype = P1
+removetime = -1
+;supermovetime = 99999
+sprpriority = 3
+id = 20152
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+[state 17100, Flip KO FX]
+type=explod
+triggerall = !IsHelper
+trigger1 = Anim=5937 && !numexplod(5938) && animelemtime(3)=0
+anim = 5938
+id = 5938
+pos = 0,-50
+postype = P1
+sprpriority = 3
+ownpal = 1
+;supermovetime = -1
+removetime = -1
+persistent = 0
+bindtime = -1
+ignorehitpause = 1
+
+
+[State -2, P2 Hit Ground Spark (front)]
+type		= Explod
+;triggerall = 	Numtarget
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)), time <= 1
+triggerall = 	!NumExplod(8400)
+trigger1		= PlayerId(var(12)),StateNo = 652 ;after jSP
+trigger2		= PlayerId(var(12)),StateNo = 2307 && PlayerId(var(12)),anim = 5100 ;Truth Barrage
+persistent	= 0
+ID		= 8400
+anim		= 8400
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+[State -2, P2 Hit Ground Spark (back)]
+type		= Explod
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)), time <= 1
+triggerall = 	!NumExplod(8401)
+trigger1		= PlayerId(var(12)),StateNo = 652 ;after jSP
+trigger2		= PlayerId(var(12)),StateNo = 2307 && PlayerId(var(12)),anim = 5100 ;Truth Barrage
+persistent	= 0
+ID		= 8401
+anim		= 8401
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= -3
+ignorehitpause	= 1
+
+
+[State -2, P2 Hit Wall Spark (front)]
+type		= Explod
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)), time <= 1
+triggerall =	!NumExplod(8402)
+trigger1		= PlayerId(var(12)),StateNo = 1321 ;Hitting wall from focus attack
+ID		= 8402
+anim		= 8402
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+[State -2, P2 Hit Wall Spark (back)]
+type		= Explod
+triggerall = 	PlayerIdExist(var(12)) ;enemy exists
+triggerall = 	PlayerId(var(12)), time <= 1
+triggerall =	!NumExplod(8403)
+trigger1		= PlayerId(var(12)),StateNo = 1321 ;Hitting wall from focus attack
+ID		= 8403
+anim		= 8403
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	=-3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+
+[state 17100, Shocked FX]
+type = explod
+triggerall = (Anim=7696 || anim=9010)
+trigger1 = !numexplod(9011)
+anim = 9011
+id = 9011
+pos = 0,0
+postype = P1
+sprpriority = -5
+ownpal = 1
+removetime = -1
+persistent = 0
+bindtime = -1
+ignorehitpause = 1
+
+[state 17100, Shocked FX]
+type = RemoveExplod
+triggerall = numexplod(9011)
+trigger1 = (Anim != 7696 && anim != 9010)
+ID = 9011
+
+
+
+
+
+;===============================================================================
+; ------- Hard Knockdowns (HKDs)/Zetto KDs --------
+;===============================================================================
+
+
+;Sweep (HKD)
+[State 0, Targetstate]
+type = TargetState
+trigger1 = NumTarget(450)
+trigger1 = movehit = 1
+value = 5951
+ignorehitpause = 0
+persistent = 0
+
+
+;Grounded EX Tatsu (HKD)
+[State 0, Targetstate]
+type = TargetState
+trigger1 = NumTarget(12100)
+trigger1 = movehit = 1
+value = 5951
+ignorehitpause = 0
+persistent = 0
+
+;Blue Nocturne (HKD)
+[State 0,targetstate]
+type = targetstate
+triggerall = cond(numtarget,!(target,IsHelper),0)
+triggerall = numtarget(20540)
+triggerall = animelemtime(52) >= 0
+trigger1 = movehit = 1
+id = 20540
+value = 2052
+Ignorehitpause = 0
+persistent = 0
+
+
+;Eternal Uniter (HKD)
+[State 0, TargetState]
+type = TargetState
+trigger1 = movehit = 1
+trigger1 = numtarget(30500)
+trigger1 = cond(numtarget,!(target,IsHelper),0)
+value = 30501 ;Custom super state that does a non standard hit anim into a HKD state (state 5954)
+ID = 30500
+ignorehitpause = 0
+persistent = 0
+
+;Do note that the other level 3 supers are HKD but im too lazy to add them here
+
+;Kick Zetto (Zetto KD)
+[State 0, TargetState]
+type = targetstate
+trigger1 = movehit=1;&&Enemy,MoveType = H
+trigger1 = numtarget
+trigger1 = !(target, ishelper)
+value = 756
+ID = 751
+ignorehitpause = 0
+persistent = 0
+
+
+;===============================================================================
+; ------- Compatibility with V.Akiha by Kohaku --------
+;===============================================================================
+
+[State -2, LifeAdd]
+type = LifeAdd
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "Kohaku" && Enemy,Name = "VAkiha_K"
+trigger1 = Enemy,Var(30) = 1
+value = -5
+kill = 0
+
+[State -2, PowerAdd]
+type = PowerAdd
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "Kohaku" && Enemy,Name = "VAkiha_K"
+trigger1 = Enemy,Var(30) = 1
+value = -26
+
+;===============================================================================
+; ------- Compatibility with Warachia by Rajaaboy --------
+;===============================================================================
+
+[state -2,RajaaBoy:_Warachia]
+type = lifeadd
+trigger1 = NumEnemy
+trigger1 = enemy,authorname="RajaaBoy"
+trigger1 = enemy,name="RajaaWarachia"
+trigger1 = enemy,var(32)=1||enemy,var(33)=1||enemy,var(34)=1
+value = (-14*enemy,var(32))+(-21*enemy,var(33))+(-28*enemy,var(34))
+kill = 0
+ignorehitpause = 1
+
+[state -2,RajaaBoy:_Warachia]
+type = poweradd
+trigger1 = NumEnemy
+trigger1 = enemy,authorname="RajaaBoy"
+trigger1 = enemy,name="RajaaWarachia"
+trigger1 = enemy,var(32)=1||enemy,var(33)=1||enemy,var(34)=1
+value = 10
+ignorehitpause = 1
+
+;;===============================================================================
+; ------- Super Background Helper Triggers --------
+;===============================================================================
+
+;R.A Kanji
+[State -2, Kanji]
+type = helper
+;triggerall = var(59) = 0
+triggerall = winKO
+triggerall = (var(26)&2**20) = 0 ;Bit is not set
+triggerall = StateNo != [200,1999]					;No basics allowed
+triggerall = RoundState = 3
+triggerall = stateno = 2854 ;After Resentful Angel
+trigger1 = !numhelper(2853001)
+id = 2853001
+stateno = 2853001
+pos =  ceil(gamewidth/2),ceil(-(gameheight/2))
+postype = left
+name = "R.A Kanji"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+; SUPER BG - Street Fighter 3: 3rd Strike/Jojos Bizarre Adventure: Heritage for the Future
+; SUPER BG HELPER
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO 
+triggerall = (var(26)&2**20) = 0 ;Bit is not set
+triggerall = !NumHelper(19875)
+triggerall = var(13) < 2
+triggerall = StateNo != [200,1999]					;No basics allowed
+triggerall = RoundState = 3
+trigger1 = !matchover
+trigger1 = stateno = 2205 ; Divine Rush
+trigger2 = stateno = 2100 && movecontact ; Rapiddohiru danmaku 
+trigger3 = NumHelper(2001) ;Kamehameha
+trigger3 = helper(2001),movecontact 
+trigger4 = stateno = 2854 ;After Resentful Angel
+trigger5 = (stateno = 14000) && movecontact ;Shippu Jinrai Kyaku
+trigger6 = NumHelper(20001) ;Air Kamehameha
+trigger6 = helper(20001),movecontact 
+trigger7 = stateno = 30414  ;Spirit God Impact
+trigger8 = stateno = [2301,2304] ;Truth Barrage
+trigger9 = stateno = 2051 && var(48) = 1
+trigger9 = var(48) := 2
+trigger10 = stateno = 30500 && movecontact ;Eternal Uniter
+trigger11 = stateno = 2050 || stateno = 2051 && movecontact ;True Nocturne
+trigger12 = stateno = 22094;Divine Rush lEVEL 2
+trigger13 = numhelper(30502) ;Eternal Uniter FZ
+trigger13 = helper(30502),movehit = 1
+ID = 19875
+pos = 20-20*(var(13)=0),-250+250*(var(13)=0)
+postype = left
+stateno = 19875 + 25*var(13)
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+
+; SUPER BG HELPER - Super DBZ Ki
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO 
+triggerall = (var(26)&2**20) = 0 ;Bit is not set
+triggerall = !NumHelper(19875)
+triggerall = var(13) = 2
+triggerall = StateNo != [200,1999]					;No basics allowed
+triggerall = RoundState = 3
+trigger1 = NumHelper(2001) ;Kamehameha
+trigger1 = helper(2001),movecontact 
+trigger2 = stateno = 2854 ;After Resentful Angel
+trigger3 = NumHelper(20001) ;Air Kamehameha
+trigger3 = helper(20001),movecontact 
+trigger4 = (stateno = 14000) && movecontact ;Shippu Jinrai Kyaku
+ID = 19875
+pos =  0,0
+postype = left
+stateno = 19892
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+;Basically for moves that shift the camera
+; SUPER BG HELPER - Super DBZ Physic
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO 
+triggerall = (var(26)&2**20) = 0 ;Bit is not set
+triggerall = !NumHelper(19875)
+triggerall = var(13) = 2
+triggerall = StateNo != [200,1999]					;No basics allowed
+triggerall = RoundState = 3
+trigger1 = stateno = 2205 ; Divine Rush
+trigger2 = stateno = 2100 && movecontact ; Rapiddohiru danmaku 
+trigger3 = stateno = 30414  ;Spirit God Impact
+trigger4 = stateno = [2301,2304] ;Truth Barrage
+trigger4 = var(48) := 2
+trigger5 = stateno = 30500 && movecontact ;Eternal Uniter
+trigger6 = stateno = 22094;Divine Rush lEVEL 2
+trigger7 = numhelper(30502) ;Eternal Uniter FZ
+trigger7 = helper(30502),movehit = 1
+trigger8 = stateno = 2051 && var(48) = 1 ;True Nocturne
+trigger8 = var(48) := 2
+trigger9 = stateno = 2050 || stateno = 2051 && movecontact ;True Nocturne
+ID = 19875
+pos = 0,0
+postype = left
+stateno = 19885
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+;Toggle bit if a Super Background was spawned
+[State -2, SBG Safety]
+type = Varadd
+triggerall = winKO
+triggerall = (var(26)&2**20) = 0 ;Bit is not set
+trigger1 = NumHelper(19875)
+var(26) = 2**20
+ignorehitpause = 1
+persistent = 0
+
+
+
+;Zetto KD Targetstate stuff
+[State 0, TargetState]
+type = TargetState
+triggerall = NumTarget(751)
+trigger1 = target(751), Stateno = 5955
+trigger1 = target(751),Alive
+trigger1 = target(751),command = "recovery"
+trigger1 = target(751),Vel Y > 0
+trigger1 = target(751),Pos Y >= 12
+value = 799
+
+
+
+;===============================================================================
+; ------- Chou Kamehameha Fatality - WTF --------
+;===============================================================================
+
+[State 10000, Explod]; White BG
+type = Explod
+;trigger1 = WinKO && MatchOver
+triggerall = numenemy;;
+triggerall = enemy,movetype=H
+triggerall = !NumExplod(5943)
+trigger1 = (enemy,StateNo=5943 || enemy,StateNo=5944 || enemy,StateNo=5946)
+anim = 2763
+id = 5943
+pos =  160,120
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+;helpertype = normal
+scale = 1.50,1.50
+ignorehitpause = 1
+persistent = 0
+
+[State 10000, Explod]; White BG front holes
+type = Explod
+triggerall = numenemy
+;triggerall = WinKO && MatchOver
+triggerall = !NumExplod(5944)
+triggerall = enemy,movetype=H
+trigger1 = enemy,StateNo=5943
+trigger2 = enemy,StateNo=2487
+anim = 5944
+id = 5944
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+;helpertype = normal
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+[State 10000, Explod]; White BG front holes tall chars
+type = Explod
+triggerall = numenemy
+;triggerall = WinKO && MatchOver
+triggerall = enemy,movetype=H
+triggerall = !NumExplod(59440)
+trigger1 = enemy,StateNo=5943
+trigger2 = enemy,StateNo=2487
+anim = 5944
+id = 59440
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)-170
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+;helpertype = normal
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+[State 10000, Explod]; White BG front holes VERY tall chars
+type = Explod
+;triggerall = WinKO && MatchOver
+triggerall = numenemy
+triggerall = enemy,movetype=H
+triggerall = !NumExplod(59441)
+trigger1 = enemy,StateNo=5943
+trigger2 = enemy,StateNo=2487
+anim = 5944
+id = 59441
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)+170
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+;helpertype = normal
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+; White BG front holes - DIAGONAL FATALITY UP
+[State -2, Explod Helper]
+type = helper
+;trigger1 = WinKO && MatchOver
+triggerall = !NumHelper(5945)
+triggerall = numenemy;;
+triggerall = enemy,movetype=H
+trigger1 = enemy,StateNo=5944 
+ID = 5945
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+StateNo = 5945
+;helpertype = normal
+name = "white_fg"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+facing = 1
+
+; White BG front holes - DIAGONAL FATALITY DOWN
+[State -2, Explod Helper]
+type = helper
+triggerall = !NumHelper(5947)
+triggerall = numenemy;;
+triggerall = enemy,movetype=H
+trigger1 = enemy,StateNo=5946 
+ID = 5947
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+StateNo = 5947
+;helpertype = normal
+name = "white_fg"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+facing = 1
+
+;===============================================================================
+; ------- EMOTION Mode --------
+;===============================================================================
+; SUPERIOR GAUGE Helper P1
+[State -2, Destiny Gauge]
+type = helper
+triggerall = !NumHelper(2860)
+triggerall = teamside = 1
+trigger1 = var(54) !=  0
+ID = 2860
+StateNo = 2860
+pos = 20, 0
+postype = left
+;helpertype = normal
+name = "SUPERIOR GAUGE Helper P1"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 1
+size.xscale = 1
+size.yscale = 1
+
+; SUPERIOR GAUGE Helper P2
+[State -2, Destiny Gauge]
+type = helper
+triggerall = !NumHelper(2870)
+triggerall = teamside = 2
+trigger1 = var(54) !=  0
+ID = 2870
+StateNo = 2870
+pos = 20, 0
+postype = left
+;helpertype = normal
+name = "SUPERIOR GAUGE Helper P2"
+pausemovetime = 999999
+supermovetime = 999999
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+size.xscale = 1
+size.yscale = 1
+
+[State -2, SUPERIOR PalFX]
+type = PalFX
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = stateno != [1300,1301] ;Not in Focus Attack states
+triggerall = stateno != 2911 ;Not Parrying
+trigger1 = var(54) > 0
+time = 1
+add =  25*var(54), 10*var(54), 25*var(54)
+;add = 25*var(54),10*var(54),25*var(54)
+mul = 256,256,256
+;sinadd = 0,0,0,10
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+
+;===============================================================================
+; COUNTER HIT (Taken from Vans, who based his on Sander's Method)
+;===============================================================================
+
+[State -2, VarSet];Checks if opponent is in attack state
+type = VarSet
+triggerall = NumEnemy
+trigger1 = enemy, movetype = A
+var(56) = 1
+ignorehitpause = 1
+
+[State -2, VarSet];This resets the condition if counter not succesful and succesful
+type = VarSet
+triggerall = NumEnemy
+trigger1 = enemy, movetype = I || var(57) >= 1  ;Enemy is Idle | Counter was Succesful
+trigger2 = var(57) > 10 && enemy, movetype = H  ;10 ticks passed & enemy is on gethit state
+var(56) = 0
+ignorehitpause = 1
+
+[State -2, VarSet];Counter Hit Succesful
+type = VarSet
+trigger1 = var(56) = 1 && movehit ;Counter Check Ok, Move Hit Succesfully.
+trigger1 = StateNo != [190,199] ;Does not activate during intros.
+trigger1 = StateNo != [800,820] ;Does not activate during throws.
+trigger1 = StateNo != [950,951] ;Don't activate during throws.
+trigger2 = var(56) = 1 && projhit = 1  ;Counter Check Ok, Projectile Hit Succesfully.
+var(57) = 1
+ignorehitpause = 1
+
+[State -2, VarAdd];Counter Hit Timer
+type = VarAdd
+trigger1 = var(57) >= 1 ;Counter was succesful
+var(57) = 1
+ignorehitpause = 1
+
+[State -2, VarSet];Counter Hit Reset
+type = VarSet
+trigger1 = var(57) >= 22 && movehit ;Reset if 22 ticks passed and move hit
+trigger2 = p2movetype != H ;Reset if P2 is no longer in gethit state
+trigger3 = movetype = H ;Reset if P1 is getting hit
+trigger4 = var(57) >= 22 && projhit = 1 ;Reset if 22 ticks passed and projectile hit
+var(57) = 0
+ignorehitpause = 1
+
+[State -2, AssertSpecial];This will award free juggles for Counter Hit.
+type = AssertSpecial
+trigger1 = var(57) > 0
+flag = nojugglecheck
+
+[State -2, EnvColor];This will produce a flash a la KOF2K2
+type = EnvColor
+triggerall = NumEnemy
+triggerall = StateNo != [190,199] ;Does not activate during intros.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+trigger1 = var(56) = 1 && movehit  ;Move hit, Ok
+trigger2 = var(56) = 1 && projhit = 1 ;Projectile hit, Ok
+value = 255,255,255
+time = 1
+under = 1
+ignorehitpause = 1
+persistent = 0
+
+[State -2, Explod];Counter Explod for P1 Side.
+type = Explod
+triggerall = NumEnemy
+triggerall = var(56) = 1 && numexplod(13000) = 0 && teamside = 1 ;Counter Ok, Explod has not played, P1 Side
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+trigger1 = movehit ;Move hits
+trigger2 = projhit = 1 ;Projectile Hits
+anim = 13000
+pos = 10,100
+postype = left  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13000
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+[State -2, Explod];Counter Explod for P2 Side.
+type = Explod
+triggerall = NumEnemy
+triggerall = var(56) = 1 && numexplod(13000) = 0 && teamside = 2 ;Counter Ok, Explod has not played, P2 Side
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+trigger1 = movehit ;Move hits
+trigger2 = projhit = 1 ;Projectile Hits
+anim = 13001
+pos = -82,100 ;-10-69-3
+postype = right  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13000
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+
+
+;===============================================================================
+; FIRST ATTACK NOTIFICATION
+;===============================================================================
+
+[State -2, First Attack]
+type = VarSet
+triggerall = Var(27) = 0
+triggerall = RoundState = 2
+trigger1 = p2StateNo = [5000,5199]
+trigger1 = p2movetype = H
+v = 27
+value = 1
+ignorehitpause = 1
+
+[State -2, First Attack - if F1 is pressed]
+type = VarSet
+triggerall = Var(27) = 0
+triggerall = RoundState = [0,1]
+trigger1 = p2StateNo = [5000,5199]
+trigger1 = p2movetype = H
+v = 27
+value = 2
+ignorehitpause = 1
+
+[State -2, Explod];P1 Side.
+type = Explod
+trigger1 = var(27)= 1 && numexplod(13100)=0 && teamside = 1
+anim = 13100
+pos = 10,IfElse(numexplod(13000),80,100)
+postype = left  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13100
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+persistent = 0
+
+[State -2, Explod];P2 Side.
+type = Explod
+trigger1 = var(27)= 1 && numexplod(13100)=0 && teamside = 2
+anim = 13101
+pos = -117,IfElse(numexplod(13000),80,100)
+postype = right  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13100
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+persistent = 0
+
+[State -2, Powaa !!!]
+type = PowerAdd
+trigger1 = Var(27) = 1
+value = 200
+persistent = 0
+
+[State -2, First Attack]
+type = VarSet
+trigger1 = Var(27) = 1
+trigger2 = movetype = H && Var(27) = 0 && StateNo != [150,159]
+v = 27
+value = 2
+
+
+;==========================================================
+[Statedef -3]
+;==========================================================
+;This controller stops sound from these channelS everytime the player skips the intro
+
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 18
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 19
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 20
+
+[State -3, HKD TargetState]
+type = TargetState
+triggerall = RoundState = 2
+triggerall = NumTarget(5951)
+trigger1 = target(5951),StateNo != [5951,5954]
+trigger1 = target(5951),Alive
+trigger1 = MoveHit
+value = 5951
+ID = 5951
+;ignorehitpause = 1
+
+;Sets number of hits for LVL3 R.KMH
+[State 2197, Numofhits]
+type = varset
+triggerall = stateno = 2197
+trigger1 = time = 1
+var(51) = 15
+
+[State -3, destroy portal]
+type = removeexplod
+triggerall = numexplod(2826)
+trigger1 = stateno = 194 || stateno = 195
+id = 2826
+[State -3, destroy portal]
+type = removeexplod
+triggerall = numexplod(1960)
+trigger1 = stateno = 194 || stateno = 195
+id = 1960
+
+[State -3, destroy portal]
+type = removeexplod
+triggerall = numexplod(1921)
+trigger1 = stateno = 194 || stateno = 195
+id = 1921
+
+;This controller plays a sound everytime the player lands from a jump, or from a back-dash.
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = StateNo = 52 ;Jump land
+trigger2 = StateNo = 0 && PrevStateNo = 5120
+trigger3 = StateNo = 5201
+trigger4 = StateNo = 1116 ;Land from blocked DK
+trigger5 = StateNo = 112 ;Land from Air Dash
+trigger6 = StateNo = 106 ;Land from Normal Back Dash
+trigger7 = StateNo = 28511 ;D.R ;V;3
+value = 40, 0
+
+[state 52, Land FX]
+type = helper
+triggerall = !numhelper(17100)
+triggerall = Time = 1
+trigger1 = StateNo = 52
+trigger2 = StateNo = 5201
+trigger3 = StateNo = 1116 ;Land from blocked DK
+trigger4 = StateNo = 112 ;Land from Air Dash
+trigger5 = StateNo = 106 ;Land from Normal Back Dash
+trigger6 = StateNo = 28511 ;D.R ;V;3
+name = "LandFX"
+StateNo = 17100
+id = 17100
+postype = P1
+ownpal = 1
+keyctrl = 0
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 0, ]
+type = Helper
+triggerall = !numHelper(52100)
+trigger1 = StateNo = 5201
+name = "recoverpulser"
+ID = 52100
+StateNo = 52100
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State -3, GetHitSnds]
+type = PlaySnd
+triggerall = ((stateno = [5000,5020]) || (stateno = [5070,5080])) && stateno%10 = 0 && alive && time = 1
+trigger1 = NumEnemy > 0 && enemynear,hitdefattr = SCA,SA,HA
+trigger2 = random < 300 + cond(gethitvar(animtype) >=2, 250, 125*gethitvar(animtype))
+value = s5000 + cond(GetHitVar(animtype) >= 2,20, GetHitVar(animtype) * 10), random%3
+channel = 0
+ignorehitpause = 1
+volumescale = 200
+
+;--------------------------------------
+
+[state -3, remove afterimage]
+type = afterimagetime
+trigger1 = Movetype = H
+trigger2 = StateNo != [10230,10233]  	;Super Jump
+trigger2 = StateNo != [110,118]  		;air dash
+trigger2 = StateNo != 58
+trigger2 = StateNo != 1004				;EX Ki Blast
+trigger2 = StateNo != [1110,1111] 		;EX Dive Kick
+trigger2 = StateNo != 1203				;EX Hurricane Kick
+trigger2 = StateNo != 3000				;Rising Justice
+trigger2 = stateno != [2300,2301]		;Truth Barrage
+trigger2 = stateno != [2190,2197]		;Divine Rush
+time = 0
+
+[State -3, Prevent Crossup]
+type = width
+triggerall = NumEnemy
+trigger1 = movetype != H
+trigger1 = facing != enemynear, facing
+edge = 4, 0
+ignorehitpause = 1
+
+[State -3, No walk during turning animation]
+type = VelSet
+trigger1 = anim=5
+x = 0
+
+
+;--STOP SOUNDS-----------------------------------------------------
+
+[State -3, StopSND, Power charging]
+type		= StopSND
+trigger1		= StateNo != 900
+trigger1		= StateNo != 2800 && StateNo != 2810
+channel		= 7
+persistent	= 0
+[State -3, StopSND, Power charging]
+type		= StopSND
+trigger1		= StateNo != 900
+trigger1		= StateNo != 2800 && StateNo != 2810
+channel		= 3
+persistent	= 0
+[State -3, StopSND, Taunt sound]
+type		= StopSND
+trigger1		= (PrevStateNo = 195) && (movetype = H)
+channel		= 4
+persistent	= 0
+
+;===============================================================================
+; Slashing Chop / Saving Strike code (Part B)
+;===============================================================================
+;Old and busted
+;[state -3, animelem set frame 1]
+;type = VarSet
+;trigger1 = StateNo = 1300 && time = 1
+;var(23) = 1
+; 
+;[state -3, animelem set frame 2]
+;type = VarSet
+;trigger1 = StateNo = 1300 && animelem = 2
+;var(23) = 2
+;
+;[state -3, animelem set frame 3]
+;type = VarSet
+;trigger1 = StateNo = 1300 && animelem = 3
+;var(23) = 3
+
+;New Hotness
+;[state -3, animelem set frame 1]
+;type = VarSet
+;triggerall = StateNo = 1300
+;trigger1 = var(23) != animelemno(0)
+;var(23) = animelemno(0)
+
+[State -3, Change to second state]
+type = HitOverride
+trigger1 = cond(StateNo = 1300,var(23) := animelemno(0),0)
+attr = SCA,NA,SA,HA,NP,SP,HP
+slot = 0
+StateNo = 1301
+time = 1
+forceair = 0
+ignorehitpause = 1
+persistent = 1
+ 
+[state -3, VarSet for first state]
+type = VarSet
+trigger1 = StateNo = 1300
+var(20) = 1
+ 
+[state -3, VarSet for second state]
+type = VarSet
+trigger1 = StateNo = 1301
+var(20) = 0
+
+[State -3, health removal in second state]
+type = LifeAdd
+trigger1 = StateNo = 1301
+value = -(GetHitVar(damage))
+kill = 1
+
+;================================================================================
+; ------- Cheap K.O. system By Warusaki3 & POTS --------
+;===============================================================================
+
+[State -3, Cheap KO]
+type = changestate
+trigger1 = !alive && (StateNo = [5000, 5010])
+trigger1 = PrevStateNo = 120 || (PrevStateNo = [130, 131]) || (PrevStateNo = [140, 141]) || (PrevStateNo = [150, 153])
+value = 5950
+ignorehitpause = 1
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = S
+ignorehitpause = 1
+fvar(1) = 0
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = C
+ignorehitpause = 1
+fvar(1) = 1
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = A
+ignorehitpause = 1
+fvar(1) = 2
+
+[State -3, Variable Height]
+type= playerpush
+triggerall= statetype=A && movetype!=H && numenemy
+triggerall= p2bodydist x = [-(enemynear,const(size.ground.back) + enemynear,const(size.ground.front)), 0]; checks if both characters are within each other's width
+trigger1= p2statetype=S
+trigger1= p2dist y >= (enemynear,const(size.height) )
+trigger2= p2statetype=C
+trigger2= p2dist y >= (enemynear,const(size.height) - 48)
+trigger3= p2statetype=L
+trigger3= p2dist y >= 11
+value= 0
+ignorehitpause= 1
+
+;guard string penalty
+[State 0, TargetPowerAdd]
+type = TargetPowerAdd
+trigger1 = NumHelper(90000005)
+trigger1 = helper(90000005),Var(2)>0
+trigger1 = NumTarget
+trigger1 = target, StateNo = [130,155]
+trigger1 = target, MoveType = H
+value = 2
+ignorehitpause = 1
+
+;WIN QUOTES SECTION ------------------------------------------------
+
+[State -3, random]
+type = varset
+triggerall = (name = "SSR Goku Black Z2i")
+trigger1 = roundstate = 4
+var(19) = random%11
+persistent = 0
+
+
+;in -3
+
+[State -3, Generic]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) > 8 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = life < 600
+trigger1 = time <= 0
+value = 8 + random%20
+
+[State -3, Easy Wins]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) > 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**29)=0 ;VS Veget
+triggerall = (var(26)&2**30)=0 ;VS Mini Game charactera
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = life > 600
+trigger1 = time <= 0
+value = 1 + random%7
+
+[State -3, VS Vegeta]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza#
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**29)>0 ;VS Vegeta
+trigger1 = time <= 0
+value = 28 + random%3
+
+[State -3, VS Saiyans]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**29)>0 || (var(26)&2**28)>0 || (var(26)&2**26)>0 || (var(26)&2**24)>0 ;VS Vegeta/Goku/Gotenks/Gohan
+trigger1 = time <= 0
+value = 31 + random%2
+
+[State -3, VS SSB Goku]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**28)>0 && (enemy,name = "SSJ Goku Z2") && (enemy,var(52)>=0) ;VS Goku
+trigger1 = time <= 0
+value = 36 + random%7
+
+[State -3, VS SSB Goku]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**28)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**29)>0 && (enemy,name = "SSJ Vegeta Z2") && (enemy,var(51)>=0) ;VS Vegeta
+trigger1 = time <= 0
+value = 36 + random%7
+
+[State -3, VS Buu]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**27)>0 ;VS Buu
+trigger1 = time <= 0
+value = 33 + random%3
+
+[State -3, VS Freeza]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**25)>0 ;VS Freeza
+trigger1 = time <= 0
+value = 43
+
+[State -3, VS Gotenks]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) >= 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**26)>0 ;VS Gotenks
+trigger1 = time <= 0
+value = 44 + random%2
+
+[State -3, VS Goku]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) >= 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**28)>0 ;VS Goku
+trigger1 = time <= 0
+value = 46 + random%3
+
+[State -3, VS Jiren]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) >= 5 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**23)>0 ;VS Jiren
+trigger1 = time <= 0
+value = 49
+
+[State -3, VS Self]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 9 ;Random
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name = "SSR Goku Black Z2i")
+trigger1 = time <= 0
+value = 50 + random%2
+
+[State -3, VS Mini-Games]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**22)=0 ;VS Human characters
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**30)>0 ;VS Mini Game character
+trigger1 = time <= 0
+value = 52 + random%4
+
+[State -3, VS Humans]
+type = victoryquote
+triggerall = (name = "SSR Goku Black Z2i")
+triggerall = var(19) < 7 ;Random
+triggerall = (var(26)&2**24)=0 ;VS Gohan
+triggerall = (var(26)&2**29)=0 ;VS Vegeta
+triggerall = (var(26)&2**27)=0 ;VS Buu
+triggerall = (var(26)&2**26)=0 ;VS Gotenks
+triggerall = (var(26)&2**25)=0 ;VS Freeza
+triggerall = (var(26)&2**28)=0 ;VS Goku
+triggerall = (var(26)&2**23)=0 ;VS Jiren
+triggerall = (var(26)&2**30)=0 ;VS Mini Game character
+triggerall = (enemy,name != "SSR Goku Black Z2i")
+triggerall = (var(26)&2**22)>0 ;VS Human characters
+trigger1 = time <= 0
+value = 56 + random%3

@@ -1,0 +1,151 @@
+;=============================================
+; CNS File for SSR Goku Black Z2i by Yoshin222
+; Constants file
+;=============================================
+
+[Data]
+life		= 875
+power		= 3000
+attack		= 100
+defence		= 100
+fall.defence_up	= 50
+liedown.time	= 15
+airjuggle		= 15
+sparkno		= 2	
+guard.sparkno	= -1
+KO.echo		= 0;3
+;volume		= 150
+FloatPersistIndex = 20   ;;Variables with this index and above will not have their values
+IntPersistIndex = 50     ;reset to 0 between rounds or matches. There are 60 int variables,
+                         ;;indexed from 0 to 59, and 40 float variables, indexed from 0 to 39.
+                         ;;If omitted, then it defaults to 60 and 40 for integer and float
+                         ;;variables repectively, meaning that none are persistent, i.e. all
+                         ;;are reset. If you want your variables to persist between matches,
+                         ;;you need to override state 5900 from common1.cns.
+
+;--	--	--	--	--	--	--
+
+[Size]
+xscale		= 1		;Horizontal scaling factor.
+yscale		= 1		;Vertical scaling factor.
+ground.back	= 30		;Player width (back, ground)
+ground.front	= 25		;Player width (front, ground)
+air.back		= 12		;Player width (back, air)
+air.front		= 12		;Player width (front, air)
+height		= 60		;Height of player (for opponent to jump over)
+attack.dist	= 160		;Default attack distance
+proj.attack.dist	= 90		;Default attack distance for projectiles
+proj.doscale	= 0		;Set to 1 to scale projectiles too   
+head.pos		= 12,-72		;Approximate position of head
+mid.pos		= -1,-46		;Approximate position of midsection
+shadowoffset	= 0		;Number of pixels to vertically offset the shadow
+draw.offset	= 0,0		;Player drawing offset in pixels (x, y)
+
+;--	--	--	--	--	--	--
+
+[Velocity]
+walk.fwd		= 2.89	;Walk forward
+walk.back		= -2.6		;Walk backward
+run.fwd		= 7.5, 0		;Run forward (x, y)
+run.back		= -6.07,-5.13	;Hop backward (x, y)
+jump.neu		= 0,-9.6		;Neutral jumping velocity (x, y)
+jump.back		= -3.44		;Jump back Speed (x, y)
+jump.fwd		= 3.50 	;Jump forward Speed (x, y)
+runjump.back	= -8.2,-8.7	;Running jump speeds (opt)
+runjump.fwd	= 7.64,-8.6
+airjump.neu	= 0,-8.9
+airjump.back	= -3.1		;Air jump speeds (opt)
+airjump.fwd	= 3.1
+
+[Movement]
+airjump.num	= 0		;Number of air jumps allowed (opt)
+airjump.height	= 35		;Minimum distance from ground before you can air jump (opt)
+yaccel		= .51        	;Vertical acceleration
+stand.friction	= .85		;Friction coefficient when standing
+crouch.friction	= .82		;Friction coefficient when crouching
+
+
+[Quotes]
+;EASY WINS (life>800):
+victory1		= "Nothing stands a chance against this unyielding body of mine!"
+victory2		= "All you have? Such weakness is uproarious!"
+victory3		= "This power that fills me... It is rapture!"
+victory4		= "My justice shall fill the universe!"
+victory5		= "I am the wisdom, I am the law, and the power of the universe!"
+victory6		= "I will be the one who snuffs out the life out of you filthy mortals!"
+victory7		= "For the Zero Mortal Plan!"
+
+;VARIOUS QUOTES:
+victory8		= "Hmhmhmhm... My will. My beauty. My very being, towers above all!"
+victory9		= "How many times must you mortals make light of death before you are satisfied?"
+victory10		= "Behold! Am I not the pinnacle of beauty?"
+victory11		= "I will bring justice to this universe."
+victory12		= "My ideal world draws one step closer.."
+victory13		= "The very thought of challenging a god. Pah!"
+victory14		= "Well? What do you think of this color? Is it not beautiful?"
+victory15		= "Death is a mercy, to fools like you."
+victory16		= "You know your place soon enough, I will erase you!"
+victory17		= "Did you know truly think you can escape a god?"
+victory18		= "Thanks to you i have grown even stronger!"
+victory19		= "Your feeble mortal mind cannot begin to fathom my will...my beauty..."
+victory20		= "With each hit I take, I become more powerful than ever!"
+victory21		= "Knowing that you cannot win, you still persist... How truly foolish you are."
+victory22		= "You Saiyans continue to try time and time again but your efforts are for naught. You display nothing but savagery..."
+victory23		= "If I were to give it a name that suits your sensibilities, it would be... Rosé. Yes, perfect! Super Saiyan Rosé!"
+victory24		= "I shall bring the dawn of a new era to this world!"
+victory25		= "Indeed, by becoming one with Goku, I have taken the sins of humanity and the failure of the Gods into myself!"
+victory26		= "This tainted world is about to come to an end..."
+victory27		= "Listen well. For I am sun that lights this world, and that shall be known as justice."
+
+;Vegeta
+victory28		= "You should know when to quit. You were just a warm-up."
+victory29		= "Oh, you still don't understand. Your part in this was long over."
+victory30		= "Vegeta... You were a satisfying appetizer."
+
+;Saiyans
+victory31		= "I will eliminate all mortals. that, of course, includes all Saiyans"
+victory32		= "You Saiyans are painfully unaware of your weaknesses."
+
+;Buu
+victory33		= "Vile hellbeast... You are the manifestation of sin, every misdeed of the Gods..."
+victory34		= "There is no place for those born of malice like you in my new world!"
+victory35		= "Be at peace, creature. In my perfect world, you will never come into existence."
+
+;SSJ God forms
+victory36		= "That power you possess... It is not to be wielded by filthy mortals!"
+victory37		= "Mortals are incapable of using the tools of the Gods..."
+victory38		= "Mortals try to rival the Gods in power, but they are always doomed to fail."
+victory39		= "There is no place in my world for those who dare to imitate the Gods."
+victory40		= "Foolish warrior! Do you think that the power you've attained has made you into a true god?"
+victory41		= "The tools of the Gods falling into the hands of mere mortals... is further proof the Gods have failed spectacularly."
+victory42		= "You dare attempt to surpass the Gods, mortal?! You will know your place!"
+
+;Golden Freeza or Freeza
+victory43		= "So you turned yourself gold... Such gawdy color is a perfect realization of mortals' wanton desires."
+
+;Gotenks
+victory44		= "Just looking at such an uncouth mortal is enough to make me ill..."
+victory45		= "No matter how much mortals combine their power, it will be nothing more than child's play compared to the power of the Gods!"
+
+;Any Goku
+victory46		= "Heh heh heh... That was a rather entertaining show you put on, Son Goku... Well done."
+victory47		= "You have given us Gods a bad name, and for that you will suffer, Goku."
+victory48		= "Your life...hand it over"
+
+;Jiren
+victory49		= "I will admit that your strength could rival that of the Gods, however, it still pales in comparison to mine!"
+
+;Self
+victory50		= "What trickery is this? A doppleganger?! No matter. You shall fall with the rest!"
+victory51		= "A shallow copy is easily made obsolete"
+
+;Mini-Game characters
+victory52		= "Ha! You sincerely believed you could stand to the power of the Gods?"
+victory53		= "Worthless peon. Begone from my sight!"
+victory54		= "Your delusion is now at rest, for at last you realise the futility of your endevours"
+victory55		= "I must admit, my Saiyan body yearns for a challenge! But alas, my time with you is at an end. Perish"
+
+;Human Characters
+victory56		= "Mankind knew that they can not change society. So instead of reflecting on themselves, they blamed the Gods"
+victory57		= "They say that time heals all things, that you can always forget. But the injustice and fears across the years, they twist my heart strings yet!"
+victory58		= "With this pure, everlasting form... now i am become Death, the destroyer of worlds"
