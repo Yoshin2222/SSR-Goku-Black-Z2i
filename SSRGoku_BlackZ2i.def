@@ -1,0 +1,71 @@
+[Info]
+name = "SSR Goku Black Z2i"
+displayname = "SSR Goku Black BETA"
+versiondate	= 00,00,0000 
+mugenversion	= 1.0
+author		= "Team Z2" ;Coded by Yoshin222,authorname Team Z2 for compatability
+pal.defaults	= 1,2,3,4,6,7,8,9,10,11,12
+;Original authors: Balthazar and Cybaster.
+;Hardcore edit by Yoshin222
+;Various sprites contributed by EXDragoon1 and by extension Kercy
+;Taunt/various Intros coded by R3dgrave
+;Mr.Giang for gripes regarding using Explods in place of Hitdef Hitsparks
+;Barker for the Zamasu sprite used in the Smug Duo intro
+;Mattfv for the Final Form Cooler sprites used in intro 6
+;5.9 Patch by Junny (and likely future character maintenance/updates)  
+
+;---IMPORTANT---
+;I'd just like to make it clear that i am not a dev, and this is not an official release, nor is it approved
+;by Team Z2. That being said, report any bugs you find and i'll get to em
+
+[Files]
+sprite		= files\goku.sff
+anim		= files\goku.air
+sound		= files\goku_black.snd
+cmd		= files\goku.mfg
+cns		= states\constants.cns
+stcommon		= common1.cns
+st		= states\system.cns
+st2		= states\helpers.cns
+st3		= states\state-2-3.cns
+st4		= states\override.cns
+st5		= states\normals.cns
+st6		= states\specials.cns
+st7		= states\supers.cns
+st8		= states\emotion.cns
+st9		= config.txt
+;st10		= Changelogs.txt
+;st11		= VarList.txt
+st9		= Changelogs.txt
+st10		= VarList.txt
+;pal1		= Palettes\Goku_Black\0001 - Yoshin - RuinedFuture.act
+;pal2		= Palettes\Goku_Black\0002 - Yoshin - Imposter.act
+;pal3		= Palettes\Goku_Black\0003 - Yoshin - Custom1.act
+;pal4		= Palettes\Goku_Black\0004 - Yoshin - CPS3 Akumaact
+;pal5		= Palettes\Goku_Black\0005 - BrawlersintheZone - Kaioshin.act
+;pal6		= Palettes\Goku_Black\HB - GokuBlackBlueKaioken.act
+;pal7        	= Palettes\Goku_Black\HB - GokuBlack.act
+;pal8		= Palettes\Goku_Black\BrawlersintheZone - Kaioshin.act
+;pal9	      	= Palettes\Goku_Black\HB - Hit.act
+;pal10	      	= Palettes\Goku_Black\HB - SSJBlueRevolution.act
+;pal11        	= Palettes\Goku_Black\HB - Vegetto.act
+;pal12		= Palettes\Goku_Black\0002 - Yoshin - Imposter.act
+;====================================================================
+;PALETTE KEYMAP
+[Palette Keymap]
+x        = 4 ;Press button X to select palette 1, etc.
+y        = 5
+z        = 6
+a        = 1
+b        = 2
+c        = 3
+x2       = 7 ;Hold Start and press button X for palette 7, etc.
+y2       = 8
+z2       = 9
+a2       = 10
+b2       = 11
+c2       = 12
+
+[Arcade]
+;intro.storyboard = Ending.def
+ending.storyboard = Ending.def

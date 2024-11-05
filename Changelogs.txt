@@ -1,0 +1,887 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG FINAL PATCH (almost, hopefully)		 - 5.9 Beta Revisions, dejankifying, and battle balance pass (Yoshin wants to move on) - 16/03/2023      - 4/11/2024
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-Updated system mechanics like focus, zetto, and throw to 5.9 standards
+-Added HKD on 2HK
+-Added HKD on Grounded EX Tatsu
+-Added ability to a dashblock with momentum applied after forward dash
+-Increased frame advantage on 214LK to be plus on hit, allowing continued pressure (was -1 on hit before)
+-Increased distance on 214LK to be easier to connect at far range
+-reduced blockstun on tatsus inital kick to stop accidental infinite blockstrings
+-Added ability to do 6P for followups to Ki blasts and 6PP for the EX Ki blast extension
+-Made it so it doesn't look like you are awkwardly falling into the floor when doing backdash in Emo
+-Improved how 6MP looks by a lot, made it more into a SF3 style quick overhead with low frame advantage on hit to continue pressure. very punishable on block though
+-Added L/M/H ki blast > normal tatsu cancels 
+(this gives Goku Black ways to start pressure from ranged buttons on hit with no meter by using the frame advantage from L tatsu, he can even combo into M/H tatsu if range permits)
+-Reworked states for f.HP and c.HP
+-Reworked the c.HP target combo move into a new move with the input 6HP
+-Added c.HP to f.HP cancel
+-Changed 2HP hurtboxes to help it anti-air better
+-made 6HP kara throwable out of
+-Increased startup and forward movement on 6HP for easier kara throws
+-Made 5HP, 6HP, and f.HP unaffected by increased pushback effect in Emo
+-Sped up 2HK's startup, not sure why it wasn't allowed to be comboed after c.5MP
+-Allowed 6HP and f.HP to be special and super cancellable on block
+-Reduced pushback of f.HP on hit and block
+-Increased proximity range of c.HP
+-Increased active frames of 6HP
+-Increased blockstun of f.HP
+-Increased blockstun of first hit of EX Tatsu (it is now safe on block)
+-Increased cancel windows of all chains
+-Made EX Tatsu a mid, before it was an overhead (wtf was bro thinking :skull)
+-Fixed guard states so he does not take more blockstun than other characters in some situations (I know this code was copied from SSJ Goku Z2 so its actually his fault, lmao Z2)
+-Changed Air Emo Clone Hold's animation to a different one
+-Added projectile invul on zettos
+-Increased recovery on Ki Blast 1
+-Increased recovery on Ki Blast followups 1 and 2 
+(these moves created a lot of dumb infinite blockstrings when combined with dash momentum and f.HP)
+-Removed on block cancels from light Tatsu to EX Ki Blast
+-Increased damage of 6HP
+-Increased distance traveled on Kick Zetto
+-Reduced how much pushback is added on a bunch of normals in Emo
+-Added chain from 5LK to 2LK without wacky shit var setting needing to be enabled
+-Added chain from 5LP to 2LP without wacky shit var setting needing to be enabled
+-Added a new victim to the thunderstruck intro 
+-Reduced hitstop on j.MP
+-Increased pushback on hit with f.MP
+-Added new move, Ground Clone Set (Input is 1/2 + MP+MK), unlike Air Clone it will not attack for Black, he must press MP+MK again to make it attack, also only cancellable from 2HK
+-Cannot have both Clone sets at the same time
+-Changed clone sweep input to 3+MP+MK
+-Changed what frames both air zetto counters hit on to make them look less jank, as a consequence they are now slower to startup
+-Added hitstop to all Zettos that didnt have any before
+-Fixed bug where Emo mode would get turned off if opponents became dizzied (Yoshin learning bitwise variables moment)
+-Increased hitstun of air emo clone attack
+-Removed Slide Kick (move looked bad, didnt serve much utility especially since 2HK got sped up and got HKD)
+-Updated movelist for relevant character changes and 5.1 system updates
+-Fixed superior mode lasting a frame or two after Eternal Uniter super, which allowed black to use moves such as clone for a brief window before Emo got turned off correctly
+-Added chip damage to 6HP
+-Fixed not being able to block low on wakeup for 1 frame, creating situations where Black got unblockabled by lows (5 hours of my life stolen by 2019 era code)
+-Stopped Black from being able to steal the corner midway through the opponent falling from back throw
+-Reduced distance traveled on 2HP
+-Turned down amount of freeze on target combo and rising justice teleport followups
+-Prevented Light and EX ground Tatsus from crossing up on most crouch blocks
+-Emo now carries over between rounds (5.9 mechanic)
+-Changed back roll's animation to the same animation as forward roll
+-Removed targetstate on j.MP
+-Reduced hitbox on 5LK
+-Increased screenfreeze on parry (4MP+MK)
+-Redid Blue Nocturne super, now freezes the screen upon parry and has more impact added onto the hits of the super when it connects, also fixed a bunch of bugs with it
+-AI now removed due to things done to the cmd, use alternate def file in Black's folder to use the AI (kinda broken due to character changes)
+-Fixed j.HP keeping projectile invuln until after landing
+-Added afterimages to Blue Nocturne super
+-Made 6MP+MK clone count as a hyper projectile, making it not lose to Majin Vegeta EX Elbow in 5.9
+-Increased health to 875 (before was 850)
+-Reduced on hit and block frame advantage of c.HP
+-Rising Justice now hits crouchers
+-Reorganized some states and moved them to a new file (emotion.cns)
+-Increased recovery of 5LK
+--------------------------------------------------------------------------------------
+CHANGELOG Lil Patch		 - 5.1 Beta tidyup - 16/03/2023      - 19/10/2023 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Moved Guard Code below Z-Counters. This should make getting them out more reliable
+- Edited a few frames to make his ST_LP resemble his ST_LP from DBFZ. Purely aesthetic
+- Fixed Air Clone Gethit X velocity
+- The first hit of Tatsu (QCB+K) would not trigger True Nocturne (QCBx2+P). To remedy this, the attr of Tatsu
+hitdefs has been changed, and True Nocturne has had it's hitby and nothitby adjusted so all should work
+as intended now
+- Fixed an error with LVL3 Divine Rush (QCFx2+3P) debris spawning on a non-existent dead P2. to remedy this,
+changed the Postype to P1 instead
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG For the Aesthetic - 5.1 Beta tidyup - 09/05/2022     - 16/03/2023 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Even more palletes! That makes 126!
+- Removed teching from CR.HP (Normal Launchers are not techable, 5.1 change)
+- Added a slight delay to crouch cancelling from a dash so you can properly perform dashing.CR.MK
+- It seems there is a game wide Focus Attack bug. When you attack with it, should the opponent land as the
+attack comes out, it will whiff entirely. Coincidentally, some Broly refactoring fixed this issue, so ported
+the fix over to Black. This bug should no longer happen
+- A daft animelemtime trigger check made cancelling from A.LK difficult if not impossible. This has been
+remedied
+- Adjusted Focus attack to have it's frame data in line with more recent characters as well as fixed the
+overly active invulnerability
+- Fixed an issue where LVL2 Divine Rush (QCFx2+3Punches) would cause the enemy to strangely hit the ground
+on some stages. This has been fixed so it should no longer happen
+- Divekick startup increased to 17 from 10. Also adjusted the velocity depending on strength. This is to make
+them more reactable, as well as removes really fast tiger knee mix. The EX Version however is unchanged
+	TIGER KNEE
+	The Tiger Knee Motion is a community term for a motion in Street Fighter 
+	games that usually ends in the up-back or up-forward motion in terms of Inputs.
+- Originally intended for Rising Justice to cause the enemy to fall faster after you hit it for the first time
+during a combo. The limiter triggered during the extension from a close connect instead of as the move hit,
+allowing for silly loops like CR.HP>Rising Justice>A.MP repeat. This has been sorted so it should now work as
+initially planned
+- Air Clones (EMO MODE ONLY- Air.MP+MK) can no longer be sent flying by pressing both Medium buttons 
+whilst getting hit. They have also been adjusted so they can be hit properly now as as well (Cheers to insiide
+for catching this one! Kicking myself for not thinking of it first)
+- Cancelling from KMH (QCFx2+Punch) in to Eternal Uniter )QCFx2=2P) now does reduced damage
+- Due to how Air Clone activated, cancelling in to it from a Dive Kick would cause the EMO Bar to be drained,
+but the clone to not come out as Black would hit the ground before the trigger occured. How the state handles
+velocity has been changed, and a posadd has been added in the case od divekick cancels so this should no longer
+occur.
+- When winning a Dash Collision, Black uses his old Back Throw. As such, a Hitdef is used for the final kick.
+This is typically fine but can be kinda weird when in Simul, so it's best to fake the hits with hitadds and
+whatnot. To this end, adjusted the throw to work better in Simul
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG For the Aesthetic - 5.1 Beta Revision - 01/04/2022    - 09/05/2022 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- SSJ Goku uses a new teleport SFX, and thus Black now uses the same one to maintain consistency
+- Yet even more palletes!
+- Per request, added the option to use a Kiai effect for Blacks Focus Attack. Check config.txt!- Added invincibility to Resentful Angel
+- Light Tatsus (QCB+Kick) hit/guard flags have been adjusted to both be mids
+- The Hitbox on Light Tatsu has been vertically extended to hit crouching opponents better
+- Slightly adjusted HKs roundhouse animation trigger when the enemy is closer
+- Buu uses an explod with the anim 9999 for the "toilet" winpose. This would cause an unused anim to display
+during that winpose in cases where Black was put in to a custom state, thus using Buus data, 
+which no longer happens as the anim has been deleted
+- 5.1 Beta System changes
+	* Added Wakeup rolling akin to SSJ Goku and Piccolos tests. Your Focus Attack isn't frame 1 invulnerable
+	when rolling, but is when getting up normally
+	* Added improved Throw Teching
+	* Air normals have reduced priority
+	* Throws now do reduced damage
+	* Can no longer Forward FADC on block
+	* Increased height requirement for Air Dash
+	* Grounded normals carry momentum when cancelled in to from a dash
+	* Can now cancel Forward dash in to:
+		- Blocking
+		- Crouching
+		- Jumping
+	* The opponent now gains meter if in blockstun for 5+ seconds
+	* Hard Knockdown states have been added. These are applied when hit by throws, Zetto Counters and LVL3 supers. 
+	In Blacks case, they have been added to most supers bar KMH, Shippu and Rapid Heel Barrage
+- Reverted to an earlier Dizzy system since, if i'm quite honest, making the old one work perfectly in simul would be a massive
+pain in the ass, so honestly fuck it just have it like everyone else
+- Zetto Counters now have Hitsparks, and it seems i mistakingly forgot to add hurtboxes to earlier frames. Due to Mugens weird
+"width" pushbox system, this led to weird clipping past characters in some instances. This should no longer happen, and the moves
+should hit as intended. This also means you can punish them properly now
+- Increased Punch Zetto Counter recovery to make punishes possible/easier
+- Meter gain while in Superior Mode has been scaled further from 54% to 15%
+- Due to a minor trigger error, Black would not enter a winpose with 1 bar of Superior gauge. This has been fixed
+- Air Clone (MP+MK) now properly fades out in the same way the other clones do
+- Rising Justice (QCB+2Punches) has been adjusted. Now any hit adds 1 to the limit, meaning you can either extend in to a 
+meaty hit for extensions, or get the followup from the close hit. All subsequent hits knock the opponent up
+- "Bullet" winpose now properly disables backgrounds when it should
+- Fixed "hit wall" portion of Focus Attack not triggering a sound effect
+- When hitting the opponent with a ground bounce with Air clone, the sound wouldn't play and the FX wouldn't spawn if the opponent
+was hit when jumping. This has been fixed
+- Adjusted forward throw to not use a hitdef anymore. Works reliably in Simul now, as before it could cause weird issues where a second
+player would fly through the ground
+- Air Clones proximity check has been tightened up
+- Ki Blasts (QCF+Punch) now has the opponent swap between low and high gethit anims. Purely aesthetic change
+- Made minor aesthetic changes to Truth Barrage (QCFx2+3Kicks) and Divine Rush LVL1 (QCFx2+3Punches)
+- Adjusted back throw to look less awkward (admittedly left it as is before out of laziness)
+- Taunt can now disperse close projectiles, hit OTG (Off The Ground), added a slight glow to startup and adjusted the end of the anim 
+to return to idle smoother
+- Destroying a projectile with a non-projectile attack (Far HP, Air HP and CR.HP) results in gaining a small amount of meter
+- Maddeningly, it seems the Transparent FX Dipswitch in Config didn't work properly. Combed through the code and fixed
+every error i could find, should work as intended now
+- The Mirror Match intro would work fine on HDBZ stages, but suffered spacing issues on non-HDBZ stages. Positioning has been
+reprogrammed so it should be consistent on every stage. Also used the proper Bit to ensure Mirror Match Intro can't occur in Simul
+- When performing a Super in Superior Mode (Downx2 + MP&MK), the Superior Gauge quickly depletes instead of instantly dissappearing.
+Mostly aesthetic, but ya can now cancel in to Eternal Uniter (QCFx2 + 2Punches) from a Kamehameha (QCFx2 + Punch) and still have
+Eternal Uniters projectile come out
+- Thunder FX spawn on the ground underneath every bolt in Blacks Superior Winpose
+- Adjusted falling speed depending on if Rapid Heel Barrage (QCFx2+2Kicks) hit the opponent or not 
+- Adjusted Air Back + MK to be more unique and impactful by giving it unique properties and a bespoke anim
+- Altered Truth Barrage (QCFx2+3Kicks) to be more a-Kim (please laugh) to source
+- Moves utilising CLSN1Default would remain active longer than intended. To fix this, added CLSN1Defaults in anims
+off screen to serve as terminators. Moves like Eternal Uniter (QCFx2+2Punches), Kick Zetto Counter, A.HP among others
+should now work as intended
+- Fixed Super snd playing twice during Rapid Heel Barrage (QCFx2+2Kicks) startup
+- Divine Rush would look visually awkward and even break on smaller stages. Code has been adjusted so this should no longer be an
+issue
+- Kick Zetto Counter now disables Player 2s playerpush upon hit, letting you crossup as intended (can't believe i forgot to add that)
+- Air clone (SUPERIOR MODE ONLY, In air, MP+MK). Your velocity is now influenced as opposed to set, and the clone is now a mid as opposed
+to a high. Alongside this, by pressing both medium buttons again while a clone is waiting in the air, you can have the clone fly towards
+the opponent. Let's ya do stuff ya couldn't before, worth tinkering around with
+- Shippu Jinrai Kyakku (QCFx2 + Kick) would whiff on abnormally small characters. The move now uses a custom
+state for the enemy, and should thus be consistent regardless of opponent
+- Seems i forgot to add a sound for when Black reverts to base when the match is over. No idea how i missed that, fixed
+- Focus Attack now uses a new anim present in SSJ Goku, and its frame data has been adjusted to be more in line with the
+cast
+- Air Punch Zetto Counter has been changed. Black now slashes quickly downward, rocketing straight to the ground, and hitting
+whatever is in front of him before he gets there. Comes out really quick, but he's left on the ground for a long time. With the
+initial activation state maintaining ya velocity for a second, it's best to do it as soon as ya block something, else ya leave
+yourself open to being punished!
+- Added Blast FX to Kamehameha during LVL3 Divine Rush
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG The Little things - 5.091 Revision - 16/01/2022   - 01/04/2022 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Yet even more palletes, thanks again to contributors! That makes 116!
+- Fixed an issue where Black had difficulty activating Superior Mode without 3 bars. Now in line with the cast
+- Updated "Fade Contingencies" for clone attacks, as well as made it so Air Clone now dissipates if Black wins the fight
+- The laugh sound effect for Blacks Taunt plays earlier
+- Added hit scaling to forward throw (5.1 standardization iirc)
+- Slight tweak to Forward throw, and Back throw now properly keeps the arm extended on grab similar to forward throw
+ Added dust FX to the Dashing CR.MK
+- Fixed a visual bug with LVL1 Divine Rush where the enemy would remain darkened longer than they should
+- Increased the Hitpause of CR.LK to make cancels a bit smoother
+- Updated the Movelist to include Slide Kick (2+MK while dashing)
+- Fixed a System bug! During moves like Supers and Emotion Mode activations, if the opponent is Dizzy, the timer
+will continue to decrement while the pause is happening, meaning you can hit the opponent with a move that stuns,
+activate Emotion Mode, and they'd be out of stun. This has been fixed, and as a result of cleaning, the In-game Timer
+now freezes perfectly as well. Let me know if i missed anything
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Fuckin Simul	 - 5.09 Revision - 1/01/2022  - 16/01/2022 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- So get this. Goku Z2 has a custom state where he causes the opponent to become dizzy. In his -2,
+he checked for the enemy in that state. That stateno was 2912, the same one as Blacks Air Clone. So
+the Dizzy sound would play whenever Black did that move. Edited the Stateno to 21920 so it should
+no longer happen
+- Combed thorough code to improve targeting in states, specifically stuff like throws and moves involving
+Custom States. Mostly to help smmoothen performance in Siuml, so Black should now teleport after appropriate
+targets, throws should work fine, stuff like that
+- Superior Mode has been disabled while in Simul to keep Black in line with other Z2 characters
+- Adjusted Proximity check for throws. Instead of P2BodyDist, now uses a calculation based on the closest
+player. Also added the check to Back throw, mmeant to the first time but it skipped my mind
+- Fixed an issue with Throw Teching. Used a Changestate as opposed to a Selfstate, leading to weird things
+when var(0) = 1. Works properly now
+-EXPERIMENTAL!!! Alongside the tech fix, characters weirdly go in to their Dash Collision anim before
+instantly going to idle. This is done by teching with 1 character having var(0) = 1 and the other
+var(0) = 2. In that scenario, Black instead performs a pushblock-esque thing similar to the mechanic
+of the same name in the Marvel vs Capcom series
+To give it a look, change Blacks Var(0) to 1 and tech vs a character with var(0) = 2
+- Should no longer be able to enter Mirror Match intro while in Simul
+- Black can now only teleport after a hit opponent if their still spinning. 1 V 1 this doesn't change
+anything, but this extra security stops weird teleport shenanigans in Simul
+- Yet even more palletes from the people on the Discord, cheers to all who submitted, that makes 113 palletes!
+- A.LP now uses a spare anim by J4RM. Felt bad not using it initially, but i just couldn't find a place for it.
+Feel this is a cute enough inclusion that doesn't drastically affect how he plays
+- Fixed a bug wherew Black could perform Ki Blasts while a KMH was on screen, but due to contingencies,
+the fireballs would immedaiately dissapate. This has been fixed, least to my knowledge
+- Black now moves forward a bit when performing Justice Cross to make it more consistent
+- Fixed the "Kill Babidi" Intro. Mostly noticable issues occured with Player 3 and 4
+- For fun, alongside the fix, added code so Babidi will change palletes depending on the player.
+They are as follows
+P1 = Babidi
+P2 = Bibidi
+P3 = Dr.Doom (Marvel Comics)
+P4 = Scion (Red Earth)
+Defaults to P1 if there's more than 4 players
+- Added invulnerability to being grabbed so ya can't be interrupted mid grab
+- Black now properly lands after a blocked/whiffed EX Tatsu. Tiny thing but looks better
+- When cancelling in to a CR.MK from a dash, Black now slides across the ground a bit and uses a different animation.
+The attack is functionally identical to CR.MK but is of course a little slower
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Fuck Simul	 - 5.08 Revision - 25/11/2021 - 1/01/2022 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Black apparently ran poorly in Simul. As such, measures have been taken to increase performance a bit,
+predominantly by applying and rearranging NumExplod checks to prevent needless removal, and less conditions
+to read when spawning them. This should hopefully help a bit, and has also led to Blacks Twist FX spawning
+properly. Lastly, disabled DisplaytoClipboards, as these can supposedly contribute to latency
+- Using the Cond Exploit, BindtoRoots now properly check the root exists before applying the bind. This fixes
+small debug errors. Not a big deal, but a nice lil tidy up
+- CR.LK has had it's hitpause increased slightly to make cancelling feel better
+- Moves utilising custom states have been put under scrutiny to ensure less strange behaviour while in Simul mode.
+Should work better now
+- Jirens Beta showed an audio bug where the Dizzy sound would repeat when opponent entered that state, and he entered
+a super to keep the opponent in the tick that plays the SND. Such a bug has not been reported in Black, but seeing as
+how he uses similar code, he now utilises a Bit to ensure the sound doesn't play more than once. Upon some testing, can
+confirm the sound would repeat, but now only plays once
+- Black used a slightly outdated trigger for Cheap KO. This would have the state occur after blocking at least 1 attack.
+Now it happens when Black is killed while blocking as it should be
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Bugfix 5	 - 5.07 Revision - 23/12/2021 - 25/11/2021
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Added invulnerability to throws so Black can't be interrupted while performing them
+- Black cannot perform certain attacks in Simul, but his AI can. This should no longer be the case
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Filthy Animals Patch - 5.06 Revision - 25/11/2021 - 23/12/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+MERRY CHRISTMAS!!! Last patch of the year. Least, god i hope so. Mostly just a couple addendums
+
+- More palletes, cheers to those who submitted!
+- Flip/Twist KO used Pre-5.0 Sound. Must've missed this, sorry, has now been fixed
+- Black was intended to have a unique "Match over" death anim, but due to my boobery, wasn't implemented correctly.
+This is no longer the case, and it now appears as it should
+- Due to Bugfix 3, mucked special cancelling a bit. See this is why i use Bits now! Should be back to normal
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Training Patch - 5.05 Revision - 25/11/2021 - 6/12/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Pallete selection should be perfect now, forgot to set the pallete akin to his intro states. Doing this
+should fix debug errors, as well as checked for Pallete selection active bit, oops!
+- EXPERIMENTAL!!! Added training mode detection thanks to notes by Kamekaze. The main difference is that
+Black will now automatically tech out of attacks in the air, leading to more efficient/practical practice. Mostly meant for him
+and Broly specifically, so functionality with other HDBZ characters is wonky
+- PS: Black now has 100 palletes!!!
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Bugfix 4	 - 5.04 Revision - 23/11/2021 - 25/11/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Mucked up Bit resets for Projectile armour from previous update, leading to some weird results. Hopefully fixed
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Bugfix 3	 - 5.03 Revision - 22/11/2021 - 23/11/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- HDBZ Characters are able to cancel from normals in to Specials with a generous window, Black could only cancel in a similar fashion
+to Capcom characters. The window has been made wider to bring him more in line with everyone else
+As a consequence of this, accidentally made CR.HK cancellable. Ultimately harmless, i'm keeping it :p
+- Moves using BLacks Weapons now properly destroy single hit projectiles using an armour solution similar to Broly (Noticing a pattern?)
+The primary reason for this change is so these moves don't trigger projectile based reversals/code.
+- Accidentally forgot to set pallete safety in Config to trigger2, fixes weirdness for real this time
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Bugfix 2	 - 5.02 Revision - 20/11/2021 - 22/11/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Slightly adjusted Blacks face on Blocking sprites, also adapted Air Blockings hurtboxes
+- Fiddled with the Puasetime of Normals to make chaining more characteristic of official characters
+- New pallete submitted by Hartz, boosting palletes to 99
+-Re-Programmed Victory Poses to properly behave against a KO'd opponent. Mistakingly set an Int for Enemys Position when it should
+be a float, as well as checking for the var itself not setting (Thanks Swiss Army Knife!). This mostly worked, but caused issues, 
+especially in the corner. Should work properly now
+- Slightly tweaked conditions for Air Clone. Now works better
+- It seems i mistakingly forgot to change changestate values for Blacks Portal Winpose, oops! Should happen as intended now
+- Spirit God Impact now shares the updated command of Superior Mode activation, making it easier to perform
+- Nicked Satans Shun Goku Satsu buffer to make performing Blacks identical
+
+Ya can thank my WIP Broly for these, as these bugs were found while debugging him, and the fixes have been ported over
+- Pallete safety measures have been adjusted to properly apply. Paranoia is one hell of a drug, picking the same pallete
+should now be entirely impossible
+- The juggle system would strangely increment when cancelling from moves in to each other. This was present in Broly, whose
+system is a direct continuation of Blacks. This being the case, this bug was likely in Black as well. If it was, it isn't now,
+so the juggle system should feel more consistent
+- S.MK added 14 to juggle potential instead of the intended 7 like other normals. Reason for this is I unintentionally made 2 SCtrls
+for adding to juggle limit. Not a huge deal, but this has been remedied
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Bugfix 1	 - 5.01 Revision - 01/09/2021 - 20/11/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Superior Mode activations buffer is now in line with the rest of the cast
+- Ported code from my WIP Broly to fix errors with Pallete selection, mainly invalid pallete mapping and
+overlapping with the opponent
+- Light Tatsu on the ground had an OTG infinite, seems i forgot to re-apply juggle addition after testing, my b
+- Contributions have bumped Blacks palletes from 91 to 98
+- Black displayed template colours on select screen. Another WIP aspect i forgot to remedy, he now shows default
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Genocide Patch - 5.0 Revision - 06/12/2020 - 01/09/2021 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+NOTE: This main purpose of this patch is to update Black to 5.0 standards. Alongside this, thought i would take
+the oppurtunity to add and fix some things while i was at it, including new options, bug fixes, enders, among
+other things. Hope ya enjoy, and please report any bugs you find!
+WARNING: THIS BICH BIG
+
+-----------------------------------------------------------------
+------------------------GENERAL UPDATES--------------------------
+-----------------------------------------------------------------
+- This Changelog will now open if you view Black in Fighter Factory. Small thing, but a little quality of life never hurt nobody
+- Idle has undergone further revisions by JfRM, massive thanks again dude!
+- Added 5.0 sounds/FX to make Black more uniform
+- Updated system code to be in line with 5.0 (projectile detection, guarding, Zetto counter, jump link prevention, etc)
+- Adjusted Win Pose decision to include every state (mishap on my part)
+- Added a Victory Portait (Old, done by Sumguy)
+- CR.HP now has a new anim utilising Blacks blade. Suggested by IMP | Ros� on Discord
+- Juggle system has been entirely overhauled. Before, Black utilised MUGENs default juggle system, which led to weirdness
+and inconsistency. Now, Black should generally feel a lot more consistent. Due to this, A.HP is now a consistent OTG tool
+He also can no longer OTG after Cinematic Supers like official characters, as well as after throws. Due to the revamped nature of
+Rising Justice, back throw now breaches the juggle limit. This makes it still possible to extend, but not by much without the use of
+meter. Still allows extensions, but moreover is now emphasised as an Oki tool
+		Term:Oki/Okizeme		- Okizeme (起き攻め) is a term used in fighting games which refers to pressuring 
+					the opponent while they are getting up after being knocked down. Depending on 
+					the game, there are various possible options a player can make after being knocked down.
+- Adjusted every Air Normal to remove fuzzy guard
+		Term: Fuzzy Guard	- A fuzzy guard is when an opponent is left in a standing position 
+		                                	even though they are crouching. This allows things such as instant 
+			                             overheads to hit even though they are technically crouching
+- Developed some Cinematic contingencies, disabling projectiles from hitting the opponent when they're hit with an attack that sends them
+to a custom state (Divine Rush, Rising Justice, Eternal Uniter, etc etc)
+- Updated Focus attack to stun on hit instead of Twist as of 5.0 along with the special KO anim
+- Made it possible for Black to extend the active time of his A.LK be holding the button
+- Per a suggestion by HB, added anims for character custom states
+	7611 (Hercules LVL3 custom state)
+	7612 (Gotenks Scribble)
+	5260 (reaction to Megaton Punch)
+	5220 (Tien Bird's Eye)
+	9000-9007 (SSJ Vegeta's Bingo Dance)
+Also added frames from SSJ Goku so his TC Teleport now properly looks like an Instant Transmission
+- Adjusted 2 Button Dashing to be more in line with how it works in 5.0 (just pressing 2 buttons dashes in the air, but
+requires a direction on the ground)
+- A.HP now animates through the blur frame
+- Cancelling ST.HK in to Attacks now removes the FX instead of staying on-screen
+- Throws now have a distance requirement. This is to prevent any weirdness involving normals with long hurtboxes (brought up
+in the HDBZ Discord, assumedly a standard to be added at some point)
+- The Third rep of Ki Blast was missing hurtboxes on the second element. Added
+- Added appropriate sounds and FX to landing from a forward dash as well as Grounded Back Dash
+- Distance check for Proximity normals has been changed. Should now lead to the appropriate move based on distance
+(sometimes close normals would come out from too far away)
+- Adjusted Cheap KO and edited some sprites for when Black loses the match
+- Added code/aprites from SSJ Goku to hold on Blacks grabbing frame during throws
+- Implemented proper winquotes. Thanks to HB for the assiatance!
+- Made a different back dash anim. Mostly aesthetic
+- Thanks to J4rm, Black now has unique blocking frames
+- Small thing. Adjusted time = 0 and !time triggers to now be time <= 0. Mugen has a strange bug where every now and then the state
+will start at -1, and then proceed to time = 1 on the next tick. Ultimately not a huge deal, but Black now feels much smoother
+- Adjsuted the pausetime on normals to make them feel more natural to chain in to
+- Implemented a Mini-Game character check. The following moves can now no longer be performeed when fighting Saibamen, Briefs, or Farmer
+	-Throws. Inputting them results in Light Kick coming out due to command priority
+	-Divine Rush
+	-Spirit God Impact
+	-True Nocturne
+	-Resentful Angel
+	-Truth Barrage
+These moves are also unavailable during Simul mode for...obvious reasons
+- Re-Programmed Pallete Selection. Should work better now, especially in regards to back-forward inputs
+- Rising Justice now has an effect for when hitting it after Animelem 3. Mostly aesthetic
+- Rising Justice will now turn to face the opponent during Startup
+- Justice Cross now utilises a new animation. Functionally identical, mostly visual
+- Taunt has been made in to an actual move. It launches on an airborne opponent, leaves you plus enough to link out of on the ground,
+is minus on block and actually heals the opponent if they block it. Also buiulds pretty decent meter
+- T E A
+In all seriousness, not only reanimated it, but the steam no longer casts a shadow. How's THAT for attention to detail?!
+Also sorted some patches in the chair, no more weird lil holes nobody noticed :p
+- Frankensprited a unique Time Over pose
+- 2 new winposes have been added inspired by the Anime, one where Black is pulled in to a portal, the other where Mai tries to shoot
+him while he's in Base form. The latter is only available on my stage specifically, Ruined Future
+
+-----------------------------------------------------------------
+ ----------------------------BALANCE-----------------------------
+-----------------------------------------------------------------
+- IMP | Bootyholebuster caught an infinite, ST.HP > Dash > ST.LK > ST.HP could loop. Fixed, and increased cancel window for 
+Justice Cross (ST.HP > ST.HP)
+- Air Tatsu now has 3 different speeds depending on button Strength
+- Air Tatsu hit properties have been altered. Hitting a kick lower to the ground will deal reduced hitstun, but still leave
+enough time for cancelling out of it. This is to fix some Superior Mode Infinites made possible due to the variable speeds on
+large characters
+- Increased the damage and knockback of CR.MP
+- Zetto Counters now add 23 points of scaling on hit (universal cast change)
+- Added new Greounded Zetto Counters
+- CR.HK now moves Black across the ground similar to Vega/Claw from the Street Fighter series. Cancelling in to it from running 
+maintains it's velocity. Unsafe up close, but can be spaced to be mode safer, or even plus
+- CR.HK now ends combos by setting the juggle limit to its max (can no longer OTG after)
+- Rising Justice now Smashes the opponent out the screen similar to Focus attack if the attack kills
+-Medium Righteous Flurry (QCB+ MK) has had it's juggle addition increased. This is to urge more expreimentation and utilisation
+of Blacks other tools to get more significant damage. I really mean it this time, EXPERIMENT!!!
+- Reduced plus frames on hit for ST.LP (used to be a whopping +7!!! Whoops!) Is now +3 on hit like ST.LK
+- Grounded EX Tatsu now consistently juggles regardless of actual juggle limit, making it a consistent ender
+- ST.LK does increased pushback while in Superior mode. Meant to deal with LK>MP loops
+- CR.MK now consistently regrounds on OTG hit
+- EX Air Tatsu now has a new feature. You can control the clone! By pressing any direction, the clone will be pulled to that direction.
+Makes the clone massively more flexible and interesting
+- Adjusted all of Blacks normals so it's possible to recover out of juggles easier
+- When cancelled in to from ST.LK, ST.MK now moves Black closer to the opponent
+- Elbow Drop sends opponents to the ground much faster
+- A.MK and HK now use new anims. Alongside this, can now turn A.MK in the air by holding Back
+- Can no longer tech out of being hit by a late Rising Justice
+- Blockstun and recovery of Divekicks tweaked to be more fair, but still minus in most cases
+- Minor thing. Adjusted every anims hurt/hitboxes. Should now be more representetive of the animations as well as slighly
+easier to whiff punish errant normals
+- Thanks to some discussion sparked by 1NSiiDE on the HDBZ Discord, made it possible to buffer focus during wakeup and when landing from
+jumps. Now if you hold both heavies within a few frames before landing or while getting up, Black will enter Focus immediately
+- Light Tatsus second kick hitbox has been vertically stretched and can now hit OTG
+- Dive Kicks trajectory has been altered. Button strength determines how far it goes, but they all fall at the same speed, good for
+ambiguous Okizeme/general movement. Their damage has also been buffed
+- Meter gain while in Superior Mode could lead to yet another activation. This has been patched out, as the scaling value for meter
+whilst the move is active has been reduced from 0.70 to 0.54
+
+-----------------------------------------------------------------
+----------------------------BUG FIXES----------------------------
+-----------------------------------------------------------------
+- Ki Blasts would spawn strangely. Fixed (Don't need Numhelper if Persistent = 0!)
+- Could strangely loop in to Up teleport by holding back after a previous Up Teleport. My bad, copy pasted changestate
+behaviour from the other dashes, accidentally including a proximity check. Should be fixed now
+- Moves that would cause ground bounces would occasionally have the sound not play. Hopefully fixed, let me know if not
+- Certain checks (i.e, vs Babidi) would reset between rounds. Hopefully fixed
+- Adjustments were made to Thunderstruck Intro so sounds cancel when interrupted correctly. Also added some victims
+- Fixed a bug where you could cancel the groundbounce of Rapid Heel Barrage by performing actions
+- Spirit God Impact would have P2 strangely scale and obfuscate the camera when Black fired the Spirit Bomb. Fixed
+- Efforts have been made so Black consistently sends opoonents to custom states during attacks regardless of if the 
+opponent was hit by a projectile
+- Air Dashes used to occasionally play the dash sound twice. Fixed
+- Sounds couldn't be stopped during the Babidi intro. This is due to the sounds being used inside the helper itself, as 
+it seems a strange bug in Mugen is that Helpers are unaffected by StopSNDs if done by the player. Moved to the player
+and adjusted the triggers, sounds can now be cancelled properly 
+	Citation if interested
+		https://mugenguild.com/forum/msg.2323377
+- There used to be a chance that Black would enter his Superior Winpose even if he had no Superiro Gauge. Fixed
+- There used to be a chance that Black would enter his Spirit God Impact and Resentful Angel Winpose accidentally. Fixed
+- Light Tatsu would occasionally skip frames on an airborne opponent, mucking up potential juggle timings. Solved
+- Combed through Black and fixed a ton of small issues. Mainly stuff like Helper/Target checks. A small fix to be sure
+but all in all irons him out a bit
+- ST.HK FX is now a helper as opposed to an explod. The main difference with it being that it used to stay stationary on
+screen regardless of screenshake
+- True Nocturne has been reworked somewhat. Pause now affects helper projectiles, and the CLSN1 has been increased
+to make contact more consistent. Alongside this, it has been restricted to the opponent being closer, and destroys a helper
+it collides with. Mostly fixes to deal with Babidi (cheers to HB. Can't wait for this little weirdo to be reworked :p)
+- Slight mishap on my part. Accidentally called Blacks anims for Forward throw instead of the opponents default anims. Whoops!
+Also added some code to adjust Babidi and Vegetto while being thrown
+- Hopefully the last time i mention these two! Rising Justice would whiff on Vegetto and Babidi due to it resetting their position to 0
+(of course, putting them smack dab on the ground) Fixed so they are consistently in range of the ender kick. Did this for Throws
+too, but mostly a visual thing
+- Air KMH no longer deals an OBSCENE amount of hits on a grounded opponent. Muck up with the var checks, my bad!
+- Thanks to Blixt, discovered a bug where Black would warp behind the opponent during Spirit God Impact. Calculation was 
+increased, fixing the issue. Also adjusted assertspecials
+	Example of what i mean: https://youtu.be/oyog7hIe8mM?t=867
+- Eternal Uniter would act strangely when hitting an opponent above Black. Code has been added so hits consistently send the opponent
+off in the right direction 
+- Some weirdness would occur when hitting opponents with Ttsus. Code intended to adjust Black to more consistently juggle would act
+strangely when fighting Golden Freeza since he teleports behind him. Fixed
+- Rapid Heel Barrage and True Nocturne would fail mid super due to Golden Freeza teleporting out mid combo. This no longer happens
+- Strangely, punishing True Nocturne was inconsistent as hits would drop, almost like a juggle even though Black is grounded. Fixed
+by setting physics to N
+- Fixed a small audio stutter when canceling in to Spirit God Impact
+- Eternal Uniter was unintentionally a potent meaty as it was active for far longer than intended. Fixed
+- KMH wouldn't spawn if another KMH was on screen. Fixed
+- Increased CL.HPs hitstun to make cancels in to Justice Cross consistent 
+- True Nocturne, Divine Rush, Resentful Angel, Spirit God Impact and throws are all disabled when fighting Mini Game characters
+- Could strangely move during Resentful Angels winpose. Fixed
+- Fixed limiting Superior Mode Activation when Kamehamehas are on-screen
+- Could perform Cinematic Supers while in Simul mode. Fixed
+- Fixed issues relating to super backgrounds
+- Charging after activating Superior Mode would cause a duplicate aura to spawn. Fixed
+- There was a layering issue with Power Charge. Can't believe i didn't notice it till now, fixed
+- Mega weird bug. Black could seemingly enter supers multiple times when inputs are negative edged. His commands have been altered,
+where he can no longer cancel in to stuff regardless of hitpause, solving the issue and making him feel more akin to actual Z2 characters
+		Negative Edge
+			Negative edge, the name for a concept in fighting game theory for games such 
+			as Street Fighter II, wherein a special move is made easier to execute by allowing 
+			the player to execute such a move by using a joystick command followed by the release 
+			of a previously depressed pushbutton
+- Rapid Heel Barrages animation would be frozen at very, VERY specific ranges. Seemingly fixed, let me know if it springs up
+	Example: https://twitter.com/Yoshin222/status/1368432303156912129?s=20
+-Solved an issue where you couldn't Back Dash twice while Superior Mode was active
+- Up Teleport could be used more than twice in fringe cases. Seemingly fixed
+- True Nocturne could still trigger when hit from behind. Not the move requires the opponent to be in front of you
+- True Nocturne now has sprpriority tweaks. Entirely visual
+- Rising Justice could cancel in to True Nocturne, causing the opponent to repeat hit anim for a while. They now simply fall
+- In fringe cases, the charge SFX for Divine Rush would loop even after you;d expect. Hopefully fixed
+
+-----------------------------------------------------------------
+-----------------------------SUPERS------------------------------
+-----------------------------------------------------------------
+- Supers now all appropriately cause Super Backgrounds when killing the opponent
+- Created new Hitsparks for moves involving the Scythe
+- Made the sounds for Grounded and Air Kamehameha uniform for clarity
+- Fixed an audio hiccup with True Nocturne. Black now completes his statement before attacking
+- Efforts were made to make Black stabbing the opponent in Spirit God Impact look more like...stabbing
+- True Nocturne now triggers Hyper Backgrounds properly when KOing the opponent
+- True Nocturne now properly kills the opponent. Before, any of the kicks would strangley launch on KO
+- True Nocturne has received significant invincibilty frames, allowing it to beat moves it would lose to before (namely
+Freezas Tail Press Nightmare LVL3)
+- The start of Divine Rush has been tweaked. Black now pulls back so it's better to see both characters
+- Can now cancel from Kamehameha in to Eternal Uniter
+- Divine Rush has been tightened up, as well as now including additional enders for if you have 2 or 3 bars
+of Superior Gauge when you hit with it!
+- Rapiddohiru danmaku now has P2 face Black upon hit
+- Rapiddohiru danmaku has had adjustments made to hit sounds. More akin to CV2 as a bit of a test, think it sounds better
+- Rapiddohiru danmaku has had it's hitboxes significantly reworked. Now hits crouching characters more consistently, but also
+requires a tighter window to properly juggle. Also sorts issues with opponents above/behind him
+- Can now choose whether to perform Rapiddohiru danmakus follup by holding a punch button
+- Eternal Uniter now hits OTG
+- Eternal Uniters damage has been altered
+- Eternal Uniters Hitbox has been vertically extended
+- Spirit God Impact now has a unique winpose for if you win the match with it
+- True Nocturne, Shippu Jinrai Kyakku and Rapiddohiru danmaku now don't add to damage scaling. This is
+to make them more worth spending the meter on them as i feel they scaled too hard before
+- Altered how Divine Rush teleports behind the opponent, making it consistently behind them, even in the corner
+- Per suggestion, added the Kanji when KO-ing the opponent with Resentful Angel
+- Adjusted Blacks velocity as he cancels in to air attacks from Shippu Jinrai Kyakku
+- Shippu Jinrai Kyakkus position has been adjusted during the grounded kicks to act more like it's namesake, increasing it's range
+- Small thing. Timer is now froxen during certain Supers (mainly cinematics). Meant to add this before but it skipped my mind. Whoops!
+- Can now hear the earth quake when performing Divine Rush. There's also a unique voice for LVL3 specifically
+
+-----------------------------------------------------------------
+----------------------------SUPERIOR MODE-----------------------------
+-----------------------------------------------------------------
+- Superior Mode TC (HP>HK) Jump Kick now has appropriate FX
+- Black can now perform his Jump Kick from his Superior Mode TC (HP>HK) While running/dashing. Added since he was
+the only character to not have a dashing attack of some kind
+- Back+MP&MK has recieved a rework. Instead of Black teleporting to the opponent, it is now a full on parry. It costs 1 
+Superior bar to initiate the parry, and you can cancel in to subsequent attempts by pressing the input again. It doesn't
+cost an additional bar if you parry something within a 5 frame window, and gain meter for a successful parry. It also restores
+a bar of Superior Gauge/ It has also been sorted to properly work while blocking
+- Black now has the bar reset if he is interrupted from a Super attack (thank you Bitwise Shifting!)
+- Can now activate Superior mode when landing from an Air Tatsu
+- Spirit God Impact and Divine Rush LVL2/3 now have unique winpose for if you win the match with them
+- Towards MP+MK Clone has been tweaked. It's hitbox has been vertically increased and horizontally reduced to aid in hitting shorter
+opponents (namely Krillin and Gotenks) Alongside this, the spawn position has been improved so it now hits airborne opponents far
+more consistently 
+- Teleport Back dash now uses a Velset solution instead of Posadd, along with a screenbound fix similar to Freeza
+- Implemented a TC similar to Normal Gokus (CL.MK > ST.MP) both for fun, and i think it conveys Black is making
+Gokus strength his own :p
+- An effect now appears, and Superior Gauge is reset when Black dies
+- Blacks Normals have had their pushbacks aktered
+- Fireball Velocities are now altered while Superior Mode is active to insentivise their use as fireball war tools
+- Eternal Uniter now generates a projectile while the mode is active
+- Air Kamehameha no longer consumes meter (my b!)
+- Implemented a new Power Charge while Superior Mode is active
+- Thanks to J4rm, new activation anim, plus Black generates an attack similar to SSJ Goku and Vegeta
+- Air Clone now has a minimum height it can spawn at. This it to make the actual attack work more consistently, as well as make it
+stronger as a meaty tool
+- Hurricane Heel (HP > HK) now has increased velocity to ensure it consistently connects when cancelled in to
+- Inspired by unused textures in DragonBall FighterZ, Blacks Clones now appear darker than Black himself
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG Small Patch - 11/09/2020 - 06/12/2020
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+- (HB) Fixed a bug where Black could hold 2 punches to dash during winposes
+- (HB) Adjusted code relating to Up Teleport (apparently it was possible to do it multiple times outside Superior mode)
+I can't replicate it, so hopefully fixed
+- Movelist was lacking True Nocturne info. Added
+- Taunt was unfinished. Reverted to original taunt. Also made the ctrlset much earlier for fun
+- (KaseSnake) Characters with alternate air gethit methods (namely, Satan) would be stuck in the air due to their last frame being -1. This was a problem
+for Truth Barrage, fixed
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG (Parting Update) - 06/07/2019 - 11/09/2020
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------GENERAL-----------------------------
+-----------------------------------------------------------------
+- Thanks to J4RMS31 on Discord, Black now has a new jump anim, taunt and idle animation. Really dig em and help him stand out. Cheers dude!
+- "Ominous" winpose has had it's length increased from 69 ticks to 82
+- Rising Justice has been significantly reworked. Instead of a single attack leaving the opponent in a significant amount of hitstun, Black
+now transitions in to a spin kick that sends the opponent flying akin to his HP > HK TC. I felt the move had a lot of potential, but was also
+pretty jank, and i couldn't find a way to balance it out that wouldn't involve tweaking the nature of the thing. This still allows a lot of 
+flexibility, but should make Black feel a bit less brain dead. A good example of it's new utility is cancelling in to EX Fireballs midscreen,
+so they are practically on top of the opponent as they get up, leading to a more interesting Oki game in this regard. Experiment!
+- Black now uses his blade for A.HP
+- CR.LP, Far HP and Air HP are now also considered projectiles, and thus can interact with them
+- He now has A.I, you can stop buggin me now! Commissioned Kamekaze for it, and i am sincerly happy with the results, highly encourage checking him out
+- Optimised the character in general, removing needless frames, cleaning up the SFF/AIR, etc
+- Thanks to Kamekaze, there is no longer Debug Flood, so the character runs a bit smoother in general
+- Gethit sounds are more reliable and work better across the board (idiocy regarding snd values) more sounds have also been added for every strength
+- Various new intros and winposes have been added, including a winpose for a Perfect and clutch victory 
+- New back throw added. Old back throw is now used after Dash collision; The new throw allows extensions afterwards, but options are limited midscreen
+- Thanks to verbal notes from Kevlar, 2 button dashes have been implemented (planned 5.0 feature) 
+--NOTE: Been at this for a while, that was before Indigo came out. Adjusted to fit it, though surprised how close i was initially
+- Changed sounds to be more in line with current HDBZ
+- Added Air and EX Air Tatsu. Think Goku, but with the quirk of the EX Version utilising a clone
+- Tiny thing. Made Black use his Twist KO anim during 18s Eternal Revolution
+- Tiny thing. Added crude sketches for Gotenks' LVL3 (Likely visible upon 5.0s release)
+- Applied code to custom gethit states so anims are displayed more naturally on Non-Z2 characters. Aesthetic change
+- EX Tatsu now works reliably as a combo ender regardless of juggle 
+- Blacks sounds now stop if something is pressed during intros like other characters
+- EX Tatsu has a new ender. Mostly aesthetic
+- EX Tatsu now has a very noticable pause on the last hit, making tight cancels easier
+- All Clone attacks now trigger a sound as they dissapate, making it easier for both players to tell when they're gone
+- Black can now perform an air up teleport (UpX2). Can be done in neutral as well as a cancel from attacks
+- It is now possible to select palletes by using directional keys during intros. Refer to addingpalletes.txt when adding palletes
+- New Close Standing Medium, Air Light Punch, Standing Medium Kick and Light Punch anims. Mostly aesthetic
+- New back walk. Also repurposed a little code from my cancelled Kid Buu for a slight transition back to idle when the button is let go
+- Fixed an infinite. M.Righteous Flurry could loop forever due to an error in hitdef checks. No longer possible
+- Air light normals in to Dive Kicks led to endless blockstrings on tall characters. A recovery anim has been added to make him less cheap
+
+-----------------------------------------------------------------
+----------------------------BUG FIXES----------------------------
+-----------------------------------------------------------------
+- Fixed an error where Black and the opponent would fly up when KOing with Shippu Jinrai Kyakku
+- Efforts have been made to ensure the generation of hitsparks is more consistent across the board. The 
+problem stemming from incorrect checks for move IDs, or conflicting with multiple other explods with the same
+ID. Typos have been corrected, and every hitspark has been given it's own ID
+- Altered damage scaling to be more akin to official Z2 characters
+- EX Divekick FX now spawn at the appropriate time (would appear earlier before)
+- Code has been added so Emo Mode is properly disabled if Black is hit out of Supers
+- Fixed an error where EX Dive Kick FX would get stuck to Blacks foot when cancelling from it
+- Fixed a bug where Black would cancel in to supers multiple times, causing gameplay and audio bugs
+- KO Snd would occasionally play both the chip and normal versions at the same time. Fixed
+
+-----------------------------------------------------------------
+-----------------------------SUPERS------------------------------
+-----------------------------------------------------------------
+- Air KMH now fires at the appropriate time (fired early before)
+- Rapiddohiru danmaku (QCFx2 +2K) now has more gethit variation. Purely aesthetic
+- Rapiddohiru danmaku (QCFx2 +2K) now does significantly higher max/minimum damage, but has been adjusted to be less abusable
+- Rapiddohiru danmaku (QCFx2 +2K) now use Blacks blade for launching. Mostly aesthetic, felt it was more characteristic
+- The knee in to ender portion of Divine Rush has been adjusted to be more dynamic
+- Divine Rush has a new ender. Black now slices the opponent back down to the ground as opposed to a second R.KMH
+- Divine Rush now binds the opponent during the initial hits. Mostly an aesthetic change
+- The Hand Blast FX while firing R.KMH would be misalligned. This seems to have been a scaling issue, which
+has been fixed
+- New super! Spirit God Impact! Does massive damage, but requires a lot of resources, requiring at least one Superior bar, and 3 stocks of meter
+- New Super! Truth Barrage! Black leaps forward, and upon hitting the opponent, goes ballisic! Goes through projectiles and kicks close to the 
+opponent
+-----------------------------------------------------------------
+----------------------------SUPERIOR MODE-----------------------------
+-----------------------------------------------------------------
+- Air Clone has been added! The clone causes Black to fall to the ground faster, leading to some potent extension, oki and mixup potential.
+Experiment!` Also costs the same as Towards + MK&MP, and causes a ground bounce on a grounded opponent
+- Can no longer enter Superior Mode while a Kamehameha is on screen
+- Dashes have been altered. While Superior mode is active, forward dash is 20% faster, and back dash becomes an invincible teleport
+- Black can now air dash twice while in Superior Mode
+- Activation now uses a couple of edited frames for visual flair. Mostly aesthetic
+- Clones can now be properly hit. Now they can be knocked up if the move would have launched, and fall as if they were players
+- Experimental change. Fireballs now go much sloweer while in Superior Mode. Worse fireball war tool, but a stronger Oki tool
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG - 01-08-2018 - 06/07/2019
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------GENERAL-----------------------------
+-----------------------------------------------------------------
+- SFF and AIR overhaul, mainly done to shrink Blacks file size down since the vast majority of data was from SSJ Goku that went unused. Transparent or Solid
+FX has also been completely implemented, and any and all hiccups have been fixed
+- As of this update, the most current version of EXPLOD Buffering has been applied
+- Blocking states are now completely up to date
+- New Cliffside Portait edited from one by Supasomeguy
+- Several 5.0 additions (Hold to tech, fixed  OTGs, improved throw teching, power charge changes, etc)
+- Grunt sounds have been added to air and crouching normals
+- Light Righteous Flurry has had its single point scaling property removed
+- All Divekick variants have had their startup reduced
+- New FX for when hitting the opponent with a Ki Blast while in EMO
+- Attack has been changed from 110 to 100 (was messing with damage scaling, making the minimum amount of damage 8 instead of 7)
+- In addition to the attack value change, new code has been added to essentially replace the Attack multiplier. His attack is functionally 101 now
+- Focus Attacks hitbox has been extended on both axis'
+- Sounds were added for charging+charging completion
+- New Move! Rising Justice!!! Coded by R3dgrave and edited by myself, Black performs a Shoryu Reppa style super that knocks the opponent in to the air.
+Similar to Rapid Heel Barrage, Black gains control after the attack. Mess around! Input is QCB+2P and is EX ONLY, and can only be done when cancelled from
+another move
+- As a result of Rising Justices possible extensions, damage is scaled by 90% after it hits. This is to aid in the prevention of Touch of Deaths
+- Per request, Hurricane Heel now causes the screen to shake on hit
+- Cinematic supers no longer display shadows (On stages with reflections, things got weird)
+- Crouching Light punch utilises Blacks blade, increasing the range significantly
+- A strange thing has been found. Black can somehow cancel in to Normals from an EX Dive Kick connect. While simple enough to fix, i feel it better to leave
+it, for at least to my knowledge, it doesn't break him in any way and gives the player a bit more freedom. Per reaction, it stays
+- Due to the inclusion of Air.Kamehameha, Air normals have had their hitstop time increased to make buffering in to it slightly easier
+- Dive Kicks are now Super Cancellable
+- Hurricane Heel (HP > HK Target Combo) is now EMO exclusive to encourage varied gameplay
+- Focus Attacks hitbox has been expanded vertically to more consistently hit crouching opponents
+- Every single move has had hitsparks adjustments. Beforehand they were handled inside Hitdefs, but have since been made Explods instead 
+(Cheers Mr.Giang for the help) as well as appropriate hit reactions 
+- Dive Kicks now cause the opponent to turn to face Black
+- Blacks old St.HP has returned, but has been repurposed as a Close normal. Links from this move are still possible, but are less extreme than that seen in Beta vids.
+It has also become a TC, being able to cancel in to ST.HP. OLd Hurricane Hell available while close up
+- 
+ 
+-----------------------------------------------------------------
+----------------------------BUG FIXES----------------------------
+-----------------------------------------------------------------
+- Fixed a coding error where fireballs would be the Light variant discounting the third blast (Project 13)
+- Fixed a coding error where Divekicks would hit multiple times on block. They now only hit once, regardless of variation (including EX)
+- EX Ki Blasts now display Blast FX correctly
+- FighterZ intro is no longer buggy (you could walk before it was done)(AVPBoy)
+- The last blast in Divine Rush no longers stays on screen against himself on KO. It also doesn't flip when it doesn't KO (animation issue)
+- Hurricane Heel (HP>HK TC) would hit multiple times on block. This no longer occurs
+- EX Tatsu now binds the opponent, making its significantly more consistent
+- At times during tweaking, Black would not enter his Mirror match intro properly. Code was added to ensure the certainty of both players
+entering the appropriate states
+- The SF3 Hyper Kill BG has been fixed, as its triggers were not the same as other Hyper Kill BGs
+- Intros were buggy, as due to how Super Jumps work, the player could super jump during intros. This is no longer possible as they've been overhauled
+- Divine Rush kills properly on last hit kills. Before, the opponent would enter the flip out state. 
+- The Super Jump Sound would play multiple times on occasion. This has been fixed
+- Resentful Angel could hit you while in the air and not attacking, leading to inescapable situations. This has been fixed
+- Resentful angel now sends the opponent to the correct animation (lying down)
+- EX Tatsu did some weird stuff during Cheap KO. This is no longer an issue
+- Back throw would previously bug out occasionally, with the opponent reacting in unexexpected ways. This has been resolved
+- Power Charge can no lnger be performed Post KO (Black woul enter the state and exit until entering a Winpose)iuf
+
+-----------------------------------------------------------------
+-----------------------------SUPERS------------------------------
+-----------------------------------------------------------------
+- Shippu Jinrai Kyaku was added (QCFx2+K) taking obvious inspiration from Kens titular Super from the Street Fighter 3 series. During the tatsu portion
+of the super, Black has control, leading to a lot of neat potential options. Experiment!
+- The opponent now lies down correctly after Resentful Angel. The punch sounds/sparks have also been replaced with slashes (thought EXDoragons version was 
+cooler and more appropriate)
+- Resentful Angel now has a unique winpose upon K.Oing the opponent
+- Air Kamehameha was been added. Same input as the ground version (QCFx2)
+- Divine Rush now darkens the screen properly (before it'd last throughout the attack on whiff or block)
+- New Hand Blast FX added to the KMH Blasts during Divine Rush
+
+-----------------------------------------------------------------
+----------------------------EMO MODE-----------------------------
+-----------------------------------------------------------------
+- EMO Attacks now trigger a sound when activated
+- Clone Rush now has a limiter in place. You can now only perform 2, costing 1 bar with 3 bars, with any less bar costing the remainder
+- Clone Rush now inflicts no chip (honest mistake)
+- Clone Rush now adds more to scaling per hit. Thought pressure/extension damage with it would be too strong
+- Damage scaling while in Emo has been altered. Values below
+EMO LEVEL| SUPER MULIPLIER| DAMAGE MULTIPLIER|
+    3    |       21%      |        11%       |
+    2    |       14%      |         7%       |  
+    1    |        7%      |         4%       |
+   WAS   |       N/A      |        N/A       |
+    3    |     25.5%      |        18%       |
+    2    |       17%      |        12%       |
+    1    |      8.5%      |         6%       |
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+CHANGELOG - BETA-01-08-2018
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------GENERAL-----------------------------
+-----------------------------------------------------------------
+-Attack value raised from 100 to 110
+-All normals do reduced pushback in the corner
+-Elbow Drop was added (Towards+MP)
+-Generally, Supers moves have been polished, with some having new properties in Emo.
+-Transparent or Solid FX has also been implemented.
+-Super Jumps now work exactly like HDBZ Super jumps, and by extension are significantly more reliable
+-New intros/Winposes, including a mirror match intro (Special thanks to R3dgrave for coding many of them)
+-Added in the meter requirement for EX Dive Kick
+-Improved Ki Blast cancelling conditions to make it more comfortable to perform
+-Blacks ST.HK is a functinal Kara Throw, where if you cancel the inital 4 frames of the animation, he'll move forward, significantly increasing his
+potential throw range.
+-Added throw invulnerability to jump startups, an HDBZ system thing
+-Frame Data overhauled, check the Move List folder for the .txt!
+-CR.LK can now cancel in to ST/CR.LP. This is to aid his High/low mixup potential 
+-Quality of life change, dust effects no longer cast shadows
+-FADC Dipswitch updated to accomadate new moves (can't believe nobody said a word about that to be honest)
+-New Wacky Shit var found in config.txt. Check it out, has some weird stuff i did for fun
+-Tatsus now only add 1 to scaling regardless of how many hits
+-A.I!!! Now by using a variable in config.txt, you can adjust the difficulty of the A.I. Yet to be fully implemented but it is planned, and this still applies
+-All Tatsus are now true blockstrings
+-Dive Kicks now add more to juggle. Before it was possible to loop for ages against big characters like Piccolo
+
+-----------------------------------------------------------------
+----------------------------BUG FIXES----------------------------
+-----------------------------------------------------------------
+Names beside bugs are the Discord users who pointed out/assisted with fixing the bug
+
+-The Super Jump sound now only plays once, it used to sometimes play multiple times
+-Dash Collision Grab fixed, it used to go to SSJ Gokus old grab as a placeholder (HB)
+-Fixed a bug where scaling wouldn't apply properly to Supers
+-Fixed a bug where the helper for EX afterimage would remain on screen if hit (HB)
+-Fixed a bug where Ki Blasts would skip to the last state due to a buffering error
+-EX Afterimages now no longer overlap (development error since EX Ki Blast can cancel in to EX Tatsu, but code for the helper is altered since Beta).
+This problem was also found in Blacks LVL2, which has also been fixed
+-Before, editing the first pallete was more difficult. You can now change it simply by changing the name in the .def (EthantheHuman)
+-EX Dive Kick had a bug where it could still trigger the second part (Savage Flip) after the LVL2. Instead of removing it, i found it so cool i decided
+to not only keep it, but make it reliable (HB)
+
+-----------------------------------------------------------------
+-----------------------------SUPERS------------------------------
+-----------------------------------------------------------------
+-Kamehameha now resets Emo when whiffed. Its speed has also been increased
+-Kamehameha now hits 6 times as opposed to 5
+-Kamehameha now launches lower outside of Emo. This is to prevent tedious and unoptimal loops (they weren't very good or fun, so ditched em). To compenstate,
+they now do a minimum of 14 damage per hit while in Emo, making the minimum damage 70
+-Rapiddohiru danmakus Afterimage is now classed as an attack, with the after image inflicting additonal hits. This happens twice while in Emo. Admittedly
+got the idea from a mod of Gohan by RawkHawk
+-The Superpause on Divine Rush was buffed to 113. This makes exstensions in to it more reliable. It also has additional cinematic
+effects, such as environment shake, and zoom.
+-Divine Rush now functions better in corners, it used to flip to the opposite directon frequently
+-New super added: Resentful Angel. Works identically to Akumas Raging Demon from the Street Fighter Series, only it is classed as a hit grab,
+so you can combo in to it
+-Due to the nature of Divine Rush, it is unavailable in Simul mode
+-Activating Divine Rush now causes fireballs to vanish if they haven't already hit the opponent. This is to prevent issues regarding collusion 
+
+-----------------------------------------------------------------
+----------------------------EMO MODE-----------------------------
+-----------------------------------------------------------------
+A vast array of changes were made, making a lot of previously known knowledge obsolete.
+
+-Blacks Emo value is set to 3 upon activation instead of 1
+-Attack of the Clones! Black gains access to various new attacks by pressing a direction+MP+MK! More info in move list, each move costs 1 Emo Level, 
+and can cancel in to and out of special moves.
+-Emo now has an associated pallete effect. This is to help make it visually easier to tell when in Emo
+-Damage multipliers have been altered. Depending on how much Emo Bar you have left, damage has been buffed by a max of 18%, with Supers being buffed by
+25.5.
+-To prevent infinites (and overly tedious links) pushback while in Emo is increased on hit for all normals
+
+========================================
+Pasted from Rajaas Urien. Turns out without anything, Mugen just won't run the character. DON'T TOUCH
+========================================
+[statedef -65536]
+type = A
+ctrl = 0
+[state -65536]
+type = null
+trigger1 = 0
+
+
+

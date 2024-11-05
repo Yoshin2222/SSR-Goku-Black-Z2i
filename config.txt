@@ -1,0 +1,414 @@
+;#####################################################################################################################
+;## PERSONALIZATION FILE FOR GOKU BLACK							    		        ##
+;## DON'T modify the values if there isn't any comment explaining what to do just above. This could mess the char.  ##
+;## If you're not sure, make a copy of the file before changing any value.					    					##
+;#####################################################################################################################
+
+[Statedef 5900]
+type = S
+
+[State 5900, varreset]
+type = varrangeset
+trigger1 = !roundsexisted
+value = 0
+
+[State 5900, varreset]
+type = varrangeset
+trigger1 = !roundsexisted
+fvalue = 0
+
+[State -2,3] ;Attack Mulset replacement
+type = varset
+trigger1 = fvar(5) = 0
+fvar(5) = 100 ;Functionally replaces your characters Attack value
+
+[State -2,3] ;Max Juggle Limit
+type = varset
+trigger1 = var(36) = 0
+var(36) = 15 ;Better manipulation of juggling
+
+[State -2,3] ;Shippu Ascension rate
+type = varset
+trigger1 = fvar(17) = 0
+fvar(17) = 0.69 
+
+;EMOTION MODE METER SCALING VALUE
+[State 5900, 3]
+type = varset
+trigger1 = 1
+fv = 6
+;This value dictates how much meter gain is scaled by while EMO is active
+;## Default value is 0.15
+value = 0.15
+
+;CLONES "DARKEND" VALUE
+[State 5900, 3]
+type = varset
+trigger1 = 1
+v = 53
+;Inspired by unused textures from DragonBall FighterZ, clones are now darkened seperately from Black
+;This value dictates how brighter/darker clones are
+;Source : https://tcrf.net/Dragon_Ball_FighterZ#Goku_Black_clone_Textures
+;## Default value is -44
+value = -44
+
+; DO NOT CHANGE ANYTHING ABOVE THIS LINE !!!
+;=================================================
+
+;A.I difficulty
+[State 5900, 3]
+type = varset
+trigger1 = 1
+v = 41
+;#####################################################################################################################
+;Sets the difficulty of the A.I
+;## 1: = Easy
+;## 2: = Medium
+;## 3: = Hard
+;## Default value is 1
+value = 1
+
+;Focus Attack FX
+[State 5900, 3]
+type = varadd
+trigger1 = (var(26)&2**21) = 0
+v = 26
+;#####################################################################################################################
+;Per request, changed Focus Attack FX to a Kiai. For those who prefer the original, it's toggleable here
+;## * 0 = Kiai, * 1 = Original
+;## Default value is 0
+value = (2**21) * 0
+
+;Eternal Uniter Sound FZ
+[State 5900, 3]
+type = varadd
+trigger1 = 1
+v = 52
+;#####################################################################################################################
+;Caz42  made some sound FX as a test. Implemented them, and depending on what you set here, can either select
+;to use that or keep the sound FX as is
+;## * 0 = Original, 1 = Caz
+;## Default value is 0
+value = 0
+
+;RANDOM SHIT VAR
+[State 5900, 3]
+type = varset
+trigger1 = 1
+v = 2
+;#####################################################################################################################
+;Based on suggestions, this activates a bunch of coding experiments i did. Hence, wacky shit
+;## Ki Mine: Iced ;Broken now, can't be bothered fixing
+;## Emo cancel from LVL1 Supers
+;## Expanded chaining
+;## Rising Justice turns to face opponent : Ngl was a test and now want it disabled
+;## Default value is 0
+value = 0
+
+;SFIV-Styled Focus Attack dash cancelling 
+[State 5900, 3]
+type = varset
+trigger1 = 1
+v = 50
+;#####################################################################################################################
+;Just a little thing i added for fun. Works identically to SFIV, can cancel in to Focus attack from normals
+;and certain special moves.
+;##Default value is 0
+value = 0
+
+; TRANSPARENT OR SOLID FX
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 49
+;#####################################################################################################################
+;## Choose how you want the effects to be slightly transparent, or if you want them to be completely solid, old school
+;## style. Set the value to 1 for transparent FX, and to 0 for solid FX.
+;## Default value is 0.
+value = 0
+
+; SUPER BACKGROUND CHOICE
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 13
+;#####################################################################################################################
+;## Choose which super background you want to use when Goku kills the opponent with a Super or Ultra move. Set the
+;## value to 0 to use the Street Fighter 3 Super BG, set the value to 1 to use the Jojo's Bizarre Adventure Super BG.
+;## Set the value to 2 to use the Super Dragon Ball Z Super BG. Set the value to any number greater than 2 to disable
+;## Super Background.
+;## Default value is 2.
+value = 2
+
+; Throw Tech?
+[State 5900, 3]
+type = VarSet
+trigger1 =  RoundState = 0
+v = 0
+;#####################################################################################################################
+;## Choose if and how you want throw teching
+;## 0 = none
+;## 1 = Using Dash Collision
+;## 2 = Normal
+;## Default value is 2
+value = 2
+
+
+; REPEL PROJECTILE FX
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 44
+;#####################################################################################################################
+;## Choose which repel projectile you want to use. Set the value to 0 if you want to use the new yellow/blue one. Set
+;## the value to 1 to use the old purple one.
+;## Default value is 0.
+value = 0
+
+; EMOTION GAUGE - X AXIS
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 45
+;#####################################################################################################################
+;## Set the value to move the Hope Gauge to a position that suits you (X Axis in this case). A positive value means
+;## forward (to the middle of the screen), a negative value means backward (to the border of the screen).
+;## Default value is 0.
+value = 0
+
+; EMOTION GAUGE - Y AXIS
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 46
+;#####################################################################################################################
+;## Set the value to move the Hope Gauge to a position that suits you (Y Axis in this case). A positive value means
+;## upward, a negative value means downward.
+;## Default value is 0.
+value = 0
+
+
+;Change palette for button "a"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno = 1
+v = 5
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 48
+
+;Change palette for button "b"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=2
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 2
+
+;Change palette for button "c"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=3
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 3
+
+;Change palette for button "x"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=4
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 12
+
+;Change palette for button "y"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=5
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 31
+
+;Change palette for button "z"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=6
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 17
+
+;Change palette for button "start" + "a"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=7
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 43
+
+;Change palette for button "start" + "b"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=8
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 44
+
+;Change palette for button "start" + "c"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=9
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 69
+
+;Change palette for button "start" + "x"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=10
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 50
+
+;Change palette for button "start" + "y"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=11
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 59
+
+;Change palette for button "start" + "z"
+[State 0, VarSet]
+type = VarSet
+trigger1 = RoundsExisted = 0
+trigger1 = palno=12
+v = 5   
+ ;#####################################################################################################################
+;## Change to the palette number you wish to add found in the palette folder. 
+;## Example to change this to 0016 - HB - Vegetto.act would be value = 16
+value = 98
+
+
+;Change palette during intro using direction keys?
+[State 5900, 3]
+type = VarAdd
+triggerall = (var(39)&1) = 0 ;Active Bit is off
+trigger1 = 1
+v = 39
+;#####################################################################################################################
+;## Up increases 1 pal index, down decreases 1 pal index, right increases 10, down decreases 10. Press Start while in his standing anim to select
+;## 0 is off (Default) and 1 is on
+value = 0
+
+;Set max amount of palletes
+[State 5900, 3]
+type = VarSet
+trigger1 = 1
+v = 29
+;#####################################################################################################################
+;## Increase by one whenever you add a pallete to add it to the intro pallete selection 
+value = 126
+
+
+;=================================================
+; DO NOT CHANGE ANYTHING BELOW THIS LINE !!!
+
+;Palette Code
+[State 5900, Apply Pal]
+type = RemapPal
+triggerall = (name = "SSR Goku Black Z2i")
+trigger1 = var(5) > 0
+trigger1 = var(5) <= var(29)
+;Added just in case the palletes are set the same in config for...some fuckin reason. I'm paranoid aight?
+trigger1 = enemy,name = "SSR Goku Black Z2i"
+trigger1 = var(5) = enemy,var(5) && teamside = 2
+trigger1 = var(5) := var(5) + 1
+source = 1,1
+dest = 1,var(5)
+
+[State 5900, Apply Pal] ;Shhhhhh
+type = RemapPal
+trigger1 = (name != "SSR Goku Black Z2i")
+source = 1,1
+dest = 1,125
+
+;Check if on Ruined Future
+[State -2, Log]
+type = VarAdd
+triggerall = (var(26)&2**15) = 0
+trigger1 = StageVar(info.author) = "Yoshin"
+trigger1 = StageVar(info.name) = "Ruined Future"
+trigger1 = StageVar(info.displayname) = "Ruined Future"
+var(26) = 2**15
+ignorehitpause = 1
+
+[state Check Enemy Z2]
+type = null
+triggerall = enemy,authorname = "Team Z2"
+;Check if Enemy is Babidi or Vegetto
+trigger1 = 1 || var(25) := var(25) + cond(enemy,name = "Babidi Z2",1,cond(enemy,name = "Vegetto Z2" ,2,0))
+;Check if VS Human enemy
+trigger1 = 1 || var(26) := var(26) + ((2**22)*((enemy,Name = "Shin Satan Z2") || (enemy,Name = "Krillin Z2") || (enemy,Name = "TenShinHan Satan Z2")))
+;;Check if VS Jiren
+trigger1 = 1 || var(26) := var(26) + ((2**23)*(enemy,Name = "Jiren Z2"))
+;Check if VS Gohan
+trigger1 = 1 || var(26) := var(26) + ((2**24)*(enemy,Name = "Gohan Z2"))
+;Check if VS Freeza
+trigger1 = 1 || var(26) := var(26) + ((2**25)*((enemy,Name = "Golden Freeza Z2") || (enemy,Name = "Freeza Z2")))
+;Check if VS Gotenks
+trigger1 = 1 || var(26) := var(26) + ((2**26)*(enemy,Name = "Gotenks Z2"))
+;Check if VS Buu
+trigger1 = 1 || var(26) := var(26) + ((2**27)*(enemy,Name = "Buu Z2"))
+;Check if VS Goku
+trigger1 = 1 || var(26) := var(26) + ((2**28)*((enemy,Name = "Goku Z2") || (enemy,Name = "SSJ Goku Z2")))
+;Check if VS Vegeta
+trigger1 = 1 || var(26) := var(26) + ((2**29)*((enemy,Name = "Normal Vegeta Z2") || (enemy,Name = "Majin Vegeta Z2") || (enemy,Name = "SSJ Vegeta Z2")))
+;Check if VS Mini-Game Character
+trigger1 = 1 || var(26) := var(26) + ((2**30)*((enemy,Name = "Saibamen Z2") || (enemy,Name = "FarmerZ2") || (enemy,Name = "Farmer Z2") || (enemy,Name = "DrBriefs Z2")))
+persistent = 0
+
+[state 191, in Simul Mode]
+type = varadd
+triggerall = (var(26)&2**18)=0 ;Not set
+trigger1 = Teammode = Simul
+trigger2 = enemyNear,TeamMode = Simul
+trigger3 = numpartner > 0
+trigger4 = numenemy > 1
+var(26) = 2**18
+
+[State 5900, End]
+type = changestate
+trigger1 = !time
+value = cond(roundno = 1, 191, 0)
